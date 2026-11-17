@@ -1,0 +1,47 @@
+[
+  {
+    "id": 1,
+    "request": "이 문장을 영어로 번역해줘: 오늘 날씨가 좋네요",
+    "expected": "translate",
+    "picked": "translate",
+    "correct": true,
+    "input_tokens": 179,
+    "output_tokens": 4
+  },
+  {
+    "id": 2,
+    "request": "지난달 매출 데이터를 핵심 3줄로 정리해줘",
+    "expected": "summarize",
+    "picked": "summarize",
+    "correct": true,
+    "input_tokens": 175,
+    "output_tokens": 5
+  },
+  {
+    "id": 3,
+    "request": "Python으로 리스트를 정렬하는 코드를 짜줘",
+    "expected": "code_help",
+    "picked": "code_help",
+    "correct": true,
+    "input_tokens": 172,
+    "output_tokens": 5
+  },
+  {
+    "id": 4,
+    "request": "점심 뭐 먹을지 추천해줘",
+    "expected": "none",
+    "picked": "none",
+    "correct": true,
+    "input_tokens": 166,
+    "output_tokens": 3
+  },
+  {
+    "id": 5,
+    "request": "이 긴 회의록을 짧게 줄여줘",
+    "expected": "summarize",
+    "picked": "summarize",
+    "correct": true,
+    "input_tokens": 168,
+    "output_tokens": 5
+  }
+]

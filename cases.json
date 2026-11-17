@@ -1,0 +1,11 @@
+[
+  {"id": 1, "request": "이 문장을 영어로 번역해줘: 오늘 날씨가 좋네요", "expected": "translate"},
+  {"id": 2, "request": "지난달 매출 데이터를 핵심 3줄로 정리해줘", "expected": "summarize"},
+  {"id": 3, "request": "Python으로 리스트를 정렬하는 코드를 짜줘", "expected": "code_help"},
+  {"id": 4, "request": "점심 뭐 먹을지 추천해줘", "expected": "none"},
+  {"id": 5, "request": "이 긴 회의록을 짧게 줄여줘", "expected": "summarize"},
+  {"id": 6, "request": "이 코드가 왜 에러 나는지 알려줘", "expected": "code_help"},
+  {"id": 7, "request": "파이썬이라는 이름이 어디서 왔는지 궁금해", "expected": "none"},
+  {"id": 8, "request": "회의록 파일 이름 좀 지어줘", "expected": "none"},
+  {"id": 9, "request": "이 영어 논문 초록을 한국어로 옮겨줘", "expected": "translate"}
+]
