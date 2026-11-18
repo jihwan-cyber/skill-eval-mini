@@ -71,6 +71,8 @@ def main():
     ap.add_argument("--model", default=None, help="기본값: summary 에 기록된 라우터 모델")
     ap.add_argument("--effort", default=None, help="기본값: summary 에 기록된 effort")
     ap.add_argument("--repeats", type=int, default=2)
+    ap.add_argument("--cases", default=None,
+                    help="학습셋/테스트셋 대신 이 케이스 파일 하나로 네 조합을 평가 (예: 외부 테스트셋)")
     ap.add_argument("--dry-run", action="store_true")
     args = ap.parse_args()
 
@@ -82,9 +84,13 @@ def main():
     best = summary["best_config"]
 
     splits = []
-    for name in ("train", "test"):
-        dirs, cases = load_cases(run_args[name])
-        splits.append((name, dirs, cases))
+    if args.cases:
+        dirs, cases = load_cases(args.cases)
+        splits.append((Path(args.cases).stem, dirs, cases))
+    else:
+        for name in ("train", "test"):
+            dirs, cases = load_cases(run_args[name])
+            splits.append((name, dirs, cases))
     base_skills = load_all_skills(splits[0][1])
 
     if args.dry_run:
@@ -106,7 +112,7 @@ def main():
     print("\n" + md)
 
     outdir = Path(args.summary).parent
-    suffix = "_dry_run" if args.dry_run else ""
+    suffix = (f"_{Path(args.cases).stem}" if args.cases else "") + ("_dry_run" if args.dry_run else "")
     with open(outdir / f"ablation{suffix}.json", "w", encoding="utf-8") as f:
         json.dump({"model": model, "effort": effort, "repeats": args.repeats, "results": results},
                   f, ensure_ascii=False, indent=2)

@@ -135,6 +135,12 @@ python3 ablation.py                                                 # 원인 분
 
 `eval.py` 옵션: `--effort low|medium|high` (기본 low), `--repeats N`, `--model`, `--out`
 
+다른 케이스 파일 하나로 네 조합(원본 / 지시문만 / description만 / 둘 다)을 평가하려면 `--cases`를 씁니다.
+결과는 `improve_runs/ablation_<파일이름>.md`에 저장됩니다.
+```bash
+python3 ablation.py --cases cases_external.json
+```
+
 ## 지표
 - **정확도**: 전체와 케이스 종류별(clear / overlap / ambiguous / none)
 - **스킬별 정밀도·재현율**, 혼동 행렬
