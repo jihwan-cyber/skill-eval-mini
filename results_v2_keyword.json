@@ -1,5 +1,9 @@
 {
   "selector": "keyword",
+  "model": "claude-haiku-5-5",
+  "effort": "low",
+  "cases": "cases_v2.json",
+  "repeats": 1,
   "metrics": {
     "accuracy": 0.9,
     "correct": 18,
@@ -13,6 +17,8 @@
     "miss_rate": 0.0,
     "invalid_count": 0,
     "empty_count": 0,
+    "consistency": null,
+    "unstable_case_ids": [],
     "per_skill": {
       "code_help": {
         "precision": 0.75,
@@ -71,6 +77,8 @@
   "rows": [
     {
       "id": 1,
+      "trial": 1,
+      "repeats": 1,
       "request": "이 문장을 영어로 번역해줘: 오늘 날씨가 좋네요",
       "tag": "clear",
       "expected": "translate",
@@ -79,6 +87,8 @@
     },
     {
       "id": 2,
+      "trial": 1,
+      "repeats": 1,
       "request": "이 영어 논문 초록을 한국어로 옮겨줘",
       "tag": "clear",
       "expected": "translate",
@@ -87,6 +97,8 @@
     },
     {
       "id": 3,
+      "trial": 1,
+      "repeats": 1,
       "request": "이 긴 회의록을 짧게 줄여줘",
       "tag": "clear",
       "expected": "summarize",
@@ -95,6 +107,8 @@
     },
     {
       "id": 4,
+      "trial": 1,
+      "repeats": 1,
       "request": "이 기사 핵심만 세 줄로 정리해줘",
       "tag": "clear",
       "expected": "summarize",
@@ -103,6 +117,8 @@
     },
     {
       "id": 5,
+      "trial": 1,
+      "repeats": 1,
       "request": "Python으로 리스트를 정렬하는 코드를 짜줘",
       "tag": "clear",
       "expected": "code_help",
@@ -111,6 +127,8 @@
     },
     {
       "id": 6,
+      "trial": 1,
+      "repeats": 1,
       "request": "이 코드가 왜 에러 나는지 알려줘",
       "tag": "clear",
       "expected": "code_help",
@@ -119,6 +137,8 @@
     },
     {
       "id": 7,
+      "trial": 1,
+      "repeats": 1,
       "request": "이 매출 표에서 월별 증가율을 계산해줘",
       "tag": "clear",
       "expected": "data_analysis",
@@ -127,6 +147,8 @@
     },
     {
       "id": 8,
+      "trial": 1,
+      "repeats": 1,
       "request": "설문 결과 숫자로 평균이랑 표준편차 구해줘",
       "tag": "clear",
       "expected": "data_analysis",
@@ -135,6 +157,8 @@
     },
     {
       "id": 9,
+      "trial": 1,
+      "repeats": 1,
       "request": "거래처에 회의 일정 변경을 알리는 메일 써줘",
       "tag": "clear",
       "expected": "write_email",
@@ -143,6 +167,8 @@
     },
     {
       "id": 10,
+      "trial": 1,
+      "repeats": 1,
       "request": "팀장님께 휴가 신청 메시지 초안 좀 만들어줘",
       "tag": "clear",
       "expected": "write_email",
@@ -151,6 +177,8 @@
     },
     {
       "id": 11,
+      "trial": 1,
+      "repeats": 1,
       "request": "지난달 매출 데이터를 핵심 3줄로 정리해줘",
       "tag": "overlap",
       "expected": "summarize",
@@ -159,6 +187,8 @@
     },
     {
       "id": 12,
+      "trial": 1,
+      "repeats": 1,
       "request": "분기별 판매량 표 보고 어느 달이 제일 많이 늘었는지 알려줘",
       "tag": "overlap",
       "expected": "data_analysis",
@@ -167,6 +197,8 @@
     },
     {
       "id": 13,
+      "trial": 1,
+      "repeats": 1,
       "request": "영어로 된 이 메일을 한국어로 바꿔줘",
       "tag": "overlap",
       "expected": "translate",
@@ -175,6 +207,8 @@
     },
     {
       "id": 14,
+      "trial": 1,
+      "repeats": 1,
       "request": "외국 바이어에게 보낼 영어 메일을 써줘",
       "tag": "overlap",
       "expected": "write_email",
@@ -183,6 +217,8 @@
     },
     {
       "id": 15,
+      "trial": 1,
+      "repeats": 1,
       "request": "엑셀 데이터 평균 내는 파이썬 코드 짜줘",
       "tag": "overlap",
       "expected": "code_help",
@@ -191,6 +227,8 @@
     },
     {
       "id": 16,
+      "trial": 1,
+      "repeats": 1,
       "request": "이 긴 메일 스레드 요점만 알려줘",
       "tag": "overlap",
       "expected": "summarize",
@@ -199,6 +237,8 @@
     },
     {
       "id": 17,
+      "trial": 1,
+      "repeats": 1,
       "request": "점심 뭐 먹을지 추천해줘",
       "tag": "none",
       "expected": "none",
@@ -207,6 +247,8 @@
     },
     {
       "id": 18,
+      "trial": 1,
+      "repeats": 1,
       "request": "파이썬이라는 이름이 어디서 왔는지 궁금해",
       "tag": "none",
       "expected": "none",
@@ -215,6 +257,8 @@
     },
     {
       "id": 19,
+      "trial": 1,
+      "repeats": 1,
       "request": "회의록 파일 이름 좀 지어줘",
       "tag": "none",
       "expected": "none",
@@ -223,6 +267,8 @@
     },
     {
       "id": 20,
+      "trial": 1,
+      "repeats": 1,
       "request": "메일함 정리하는 좋은 습관 있어?",
       "tag": "none",
       "expected": "none",

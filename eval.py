@@ -9,7 +9,9 @@
 import argparse
 import json
 import re
+import sys
 from collections import Counter, defaultdict
+from pathlib import Path
 
 from load_skills import load_skills
 
@@ -26,6 +28,8 @@ KEYWORDS = {
     "code_help": ["코드", "에러", "오류", "버그", "파이썬", "python"],
     "data_analysis": ["계산", "평균", "표준편차", "증가율", "늘었", "표 "],
     "write_email": ["메일", "메시지", "초안"],
+    "report_write": ["보고서를 써", "보고서를 작성", "기획서"],
+    "proofread": ["맞춤법", "문법", "다듬", "어색한"],
 }
 
 
@@ -107,6 +111,14 @@ def compute_metrics(rows, labels):
         by_tag[r["tag"]][0] += r["correct"]
         by_tag[r["tag"]][1] += 1
 
+    # 같은 요청을 여러 번 돌렸을 때 매번 같은 답을 했는지 (반복 실행 시에만)
+    picks_by_id = defaultdict(list)
+    for r in rows:
+        picks_by_id[r["id"]].append(r["picked"])
+    repeated = {i: p for i, p in picks_by_id.items() if len(p) > 1}
+    unstable = sorted(i for i, p in repeated.items() if len(set(p)) > 1)
+    consistency = round(1 - len(unstable) / len(repeated), 3) if repeated else None
+
     none_rows = [r for r in rows if r["expected"] == NONE]
     skill_rows = [r for r in rows if r["expected"] != NONE]
     return {
@@ -125,6 +137,8 @@ def compute_metrics(rows, labels):
         ) if skill_rows else None,
         "invalid_count": sum(r["picked"] == INVALID for r in rows),
         "empty_count": sum(r["picked"] == EMPTY for r in rows),
+        "consistency": consistency,
+        "unstable_case_ids": unstable,
         "per_skill": per_skill,
         "confusion": {e: dict(c) for e, c in confusion.items()},
     }
@@ -137,34 +151,68 @@ def print_report(rows, metrics):
     print("누락률(스킬 필요한데 none):", metrics["miss_rate"])
     print("목록 밖 답변 수:", metrics["invalid_count"])
     print("빈 답변 수:", metrics["empty_count"])
+    if metrics["consistency"] is not None:
+        print("일관성(반복해도 같은 답):", metrics["consistency"],
+              "/ 흔들린 케이스:", metrics["unstable_case_ids"])
     print("\n스킬별 정밀도 / 재현율")
     for name, m in metrics["per_skill"].items():
         print(f"  {name:14s} P={m['precision']}  R={m['recall']}  (n={m['support']})")
     print("\n틀린 케이스")
     for r in rows:
         if not r["correct"]:
-            print(f"  #{r['id']} [{r['tag']}] {r['expected']} -> {r['picked']} : {r['request']}")
+            trial = f" (시도 {r['trial']})" if r.get("repeats", 1) > 1 else ""
+            print(f"  #{r['id']}{trial} [{r['tag']}] {r['expected']} -> {r['picked']} : {r['request']}")
             if r["picked"] in (INVALID, EMPTY) and "raw" in r:
                 print(f"      모델 원문: {r['raw'][:80]!r}  (stop_reason={r.get('stop_reason')})")
 
 
 # ---------------------------------------------------------------- 실행
 
-def run(selector, skills, cases):
+def run(selector, skills, cases, repeats=1):
     rows = []
-    for case in cases:
-        raw, extra = selector(case["request"], skills)
-        picked = normalize(raw, skills)
-        rows.append({
-            "id": case["id"],
-            "request": case["request"],
-            "tag": case.get("tag", "clear"),
-            "expected": case["expected"],
-            "picked": picked,
-            "correct": picked == case["expected"],
-            **extra,
-        })
+    for trial in range(1, repeats + 1):
+        for case in cases:
+            raw, extra = selector(case["request"], skills)
+            picked = normalize(raw, skills)
+            # 정답이 둘 이상 가능한 애매한 요청은 acceptable 목록 중 하나면 정답
+            acceptable = case.get("acceptable", [case["expected"]])
+            rows.append({
+                "id": case["id"],
+                "trial": trial,
+                "repeats": repeats,
+                "request": case["request"],
+                "tag": case.get("tag", "clear"),
+                "expected": case["expected"],
+                "picked": picked,
+                "correct": picked in acceptable,
+                **extra,
+            })
     return rows
+
+
+def load_cases(path):
+    """케이스 파일을 읽는다.
+
+    - 리스트 형식: 케이스 목록만 있고 스킬은 skills/ 에서 읽는다 (v2).
+    - 딕셔너리 형식: {"skills_dirs": [...], "cases": [...]} (v3).
+    """
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    if isinstance(data, list):
+        return ["skills"], data
+    return data.get("skills_dirs", ["skills"]), data["cases"]
+
+
+def load_all_skills(dirs):
+    base = Path(__file__).resolve().parent
+    skills = {}
+    for d in dirs:
+        for name, desc in load_skills(base / d).items():
+            if name in skills:
+                print(f"[경고] 스킬 이름 중복: {name} ({d}) - 먼저 읽은 것을 사용", file=sys.stderr)
+                continue
+            skills[name] = desc
+    return skills
 
 
 def main():
@@ -173,21 +221,25 @@ def main():
     ap.add_argument("--model", default="claude-haiku-5-5")
     ap.add_argument("--effort", default="low", choices=["low", "medium", "high"])
     ap.add_argument("--cases", default="cases_v2.json")
+    ap.add_argument("--repeats", type=int, default=1, help="같은 케이스를 반복 실행할 횟수")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
-    skills = load_skills()
-    with open(args.cases, encoding="utf-8") as f:
-        cases = json.load(f)
+    skills_dirs, cases = load_cases(args.cases)
+    skills = load_all_skills(skills_dirs)
+    print(f"스킬 {len(skills)}개: {', '.join(skills)} / 케이스 {len(cases)}개 x {args.repeats}회\n")
 
     selector = keyword_selector if args.selector == "keyword" else make_api_selector(args.model, args.effort)
-    rows = run(selector, skills, cases)
+    rows = run(selector, skills, cases, args.repeats)
     metrics = compute_metrics(rows, list(skills) + [NONE])
     print_report(rows, metrics)
 
-    out = args.out or f"results_v2_{args.selector}.json"
+    version = Path(args.cases).stem.replace("cases_", "")
+    out = args.out or f"results_{version}_{args.selector}.json"
     with open(out, "w", encoding="utf-8") as f:
-        json.dump({"selector": args.selector, "metrics": metrics, "rows": rows},
+        json.dump({"selector": args.selector, "model": args.model, "effort": args.effort,
+                   "cases": args.cases, "repeats": args.repeats,
+                   "metrics": metrics, "rows": rows},
                   f, ensure_ascii=False, indent=2)
     print(f"\n저장: {out}")
 

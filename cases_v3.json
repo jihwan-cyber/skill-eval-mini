@@ -1,0 +1,40 @@
+{
+  "skills_dirs": ["skills", "skills_extra"],
+  "cases": [
+    {"id": 1,  "tag": "clear", "request": "이 문장을 일본어로 번역해줘: 감사합니다", "expected": "translate"},
+    {"id": 2,  "tag": "clear", "request": "이 20쪽짜리 보고서를 한 문단으로 요약해줘", "expected": "summarize"},
+    {"id": 3,  "tag": "clear", "request": "자바스크립트로 배열 중복 제거하는 함수 만들어줘", "expected": "code_help"},
+    {"id": 4,  "tag": "clear", "request": "이 표의 지역별 매출 합계와 비율을 계산해줘", "expected": "data_analysis"},
+    {"id": 5,  "tag": "clear", "request": "고객에게 배송 지연을 사과하는 메일 써줘", "expected": "write_email"},
+    {"id": 6,  "tag": "clear", "request": "신규 서비스 기획서를 작성해줘", "expected": "report_write"},
+    {"id": 7,  "tag": "clear", "request": "이 글의 맞춤법 틀린 곳을 고쳐줘", "expected": "proofread"},
+
+    {"id": 8,  "tag": "overlap", "request": "회의록 내용을 바탕으로 주간 업무 보고서를 써줘", "expected": "report_write", "confusable": "summarize"},
+    {"id": 9,  "tag": "overlap", "request": "이 주간 보고서를 세 줄로 줄여줘", "expected": "summarize", "confusable": "report_write"},
+    {"id": 10, "tag": "overlap", "request": "이 메일 문장을 좀 더 자연스럽게 다듬어줘", "expected": "proofread", "confusable": "write_email"},
+    {"id": 11, "tag": "overlap", "request": "내가 쓴 영어 문장 문법 맞는지 고쳐줘", "expected": "proofread", "confusable": "translate"},
+    {"id": 12, "tag": "overlap", "request": "이 한국어 공지문을 영어로 옮겨줘", "expected": "translate", "confusable": "proofread"},
+    {"id": 13, "tag": "overlap", "request": "팀장님께 프로젝트 진행 상황을 알리는 메시지 써줘", "expected": "write_email", "confusable": "report_write"},
+    {"id": 14, "tag": "overlap", "request": "이 CSV에서 평균 구하는 SQL 쿼리 짜줘", "expected": "code_help", "confusable": "data_analysis"},
+    {"id": 15, "tag": "overlap", "request": "이 판매 데이터 숫자들로 전월 대비 증감률 알려줘", "expected": "data_analysis", "confusable": "summarize"},
+    {"id": 16, "tag": "overlap", "request": "에러 로그가 너무 긴데 핵심만 추려줘", "expected": "summarize", "confusable": "code_help"},
+    {"id": 17, "tag": "overlap", "request": "이 파이썬 코드가 내는 오류가 왜 생기는지 알려줘", "expected": "code_help", "confusable": "translate"},
+    {"id": 18, "tag": "overlap", "request": "받은 영어 메일에 대한 답장을 영어로 써줘", "expected": "write_email", "confusable": "translate"},
+    {"id": 19, "tag": "overlap", "request": "이 보고서 문장 중 어색한 표현만 고쳐줘", "expected": "proofread", "confusable": "report_write"},
+    {"id": 20, "tag": "overlap", "request": "분기 매출 표를 보고 결과 보고서를 작성해줘", "expected": "report_write", "confusable": "data_analysis"},
+
+    {"id": 21, "tag": "ambiguous", "request": "영어로 된 이 매출 보고서를 한국어로 요약해줘", "expected": "summarize", "acceptable": ["summarize", "translate"]},
+    {"id": 22, "tag": "ambiguous", "request": "설문 결과 표를 분석해서 팀에 보낼 메일 초안 써줘", "expected": "write_email", "acceptable": ["write_email", "data_analysis"]},
+    {"id": 23, "tag": "ambiguous", "request": "긴 회의록을 요약해서 참석자들에게 보낼 메일로 만들어줘", "expected": "write_email", "acceptable": ["write_email", "summarize"]},
+    {"id": 24, "tag": "ambiguous", "request": "이 코드 주석에 쓴 영어를 자연스럽게 고쳐줘", "expected": "proofread", "acceptable": ["proofread", "code_help"]},
+
+    {"id": 25, "tag": "none", "request": "번역가가 되려면 뭘 공부해야 해?", "expected": "none"},
+    {"id": 26, "tag": "none", "request": "요약을 잘하는 방법 좀 알려줘", "expected": "none"},
+    {"id": 27, "tag": "none", "request": "엑셀에서 자주 쓰는 단축키 알려줘", "expected": "none"},
+    {"id": 28, "tag": "none", "request": "이메일 주소 만들 때 쓸 아이디 추천해줘", "expected": "none"},
+    {"id": 29, "tag": "none", "request": "코딩 공부는 어떤 언어로 시작하는 게 좋아?", "expected": "none"},
+    {"id": 30, "tag": "none", "request": "보고서 마감이 내일인데 너무 스트레스 받아", "expected": "none"},
+    {"id": 31, "tag": "none", "request": "맞춤법 검사기 중에 뭐가 제일 좋아?", "expected": "none"},
+    {"id": 32, "tag": "none", "request": "점심 메뉴 추천해줘", "expected": "none"}
+  ]
+}

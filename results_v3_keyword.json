@@ -1,0 +1,427 @@
+{
+  "selector": "keyword",
+  "model": "claude-haiku-5-5",
+  "effort": "low",
+  "cases": "cases_v3.json",
+  "repeats": 1,
+  "metrics": {
+    "accuracy": 0.688,
+    "correct": 22,
+    "total": 32,
+    "accuracy_by_tag": {
+      "clear": "6/7",
+      "overlap": "8/13",
+      "ambiguous": "4/4",
+      "none": "4/8"
+    },
+    "false_trigger_rate": 0.5,
+    "miss_rate": 0.083,
+    "invalid_count": 0,
+    "empty_count": 0,
+    "consistency": null,
+    "unstable_case_ids": [],
+    "per_skill": {
+      "code_help": {
+        "precision": 0.333,
+        "recall": 0.333,
+        "support": 3
+      },
+      "data_analysis": {
+        "precision": 0.5,
+        "recall": 0.5,
+        "support": 2
+      },
+      "summarize": {
+        "precision": 0.5,
+        "recall": 0.5,
+        "support": 4
+      },
+      "translate": {
+        "precision": 0.4,
+        "recall": 1.0,
+        "support": 2
+      },
+      "write_email": {
+        "precision": 0.6,
+        "recall": 0.6,
+        "support": 5
+      },
+      "proofread": {
+        "precision": 0.75,
+        "recall": 0.6,
+        "support": 5
+      },
+      "report_write": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 3
+      },
+      "none": {
+        "precision": 0.667,
+        "recall": 0.5,
+        "support": 8
+      }
+    },
+    "confusion": {
+      "translate": {
+        "translate": 2
+      },
+      "summarize": {
+        "summarize": 2,
+        "code_help": 1,
+        "translate": 1
+      },
+      "code_help": {
+        "none": 1,
+        "data_analysis": 1,
+        "code_help": 1
+      },
+      "data_analysis": {
+        "data_analysis": 1,
+        "none": 1
+      },
+      "write_email": {
+        "write_email": 3,
+        "translate": 1,
+        "summarize": 1
+      },
+      "report_write": {
+        "report_write": 3
+      },
+      "proofread": {
+        "proofread": 3,
+        "write_email": 1,
+        "code_help": 1
+      },
+      "none": {
+        "translate": 1,
+        "summarize": 1,
+        "none": 4,
+        "write_email": 1,
+        "proofread": 1
+      }
+    }
+  },
+  "rows": [
+    {
+      "id": 1,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 문장을 일본어로 번역해줘: 감사합니다",
+      "tag": "clear",
+      "expected": "translate",
+      "picked": "translate",
+      "correct": true
+    },
+    {
+      "id": 2,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 20쪽짜리 보고서를 한 문단으로 요약해줘",
+      "tag": "clear",
+      "expected": "summarize",
+      "picked": "summarize",
+      "correct": true
+    },
+    {
+      "id": 3,
+      "trial": 1,
+      "repeats": 1,
+      "request": "자바스크립트로 배열 중복 제거하는 함수 만들어줘",
+      "tag": "clear",
+      "expected": "code_help",
+      "picked": "none",
+      "correct": false
+    },
+    {
+      "id": 4,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 표의 지역별 매출 합계와 비율을 계산해줘",
+      "tag": "clear",
+      "expected": "data_analysis",
+      "picked": "data_analysis",
+      "correct": true
+    },
+    {
+      "id": 5,
+      "trial": 1,
+      "repeats": 1,
+      "request": "고객에게 배송 지연을 사과하는 메일 써줘",
+      "tag": "clear",
+      "expected": "write_email",
+      "picked": "write_email",
+      "correct": true
+    },
+    {
+      "id": 6,
+      "trial": 1,
+      "repeats": 1,
+      "request": "신규 서비스 기획서를 작성해줘",
+      "tag": "clear",
+      "expected": "report_write",
+      "picked": "report_write",
+      "correct": true
+    },
+    {
+      "id": 7,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 글의 맞춤법 틀린 곳을 고쳐줘",
+      "tag": "clear",
+      "expected": "proofread",
+      "picked": "proofread",
+      "correct": true
+    },
+    {
+      "id": 8,
+      "trial": 1,
+      "repeats": 1,
+      "request": "회의록 내용을 바탕으로 주간 업무 보고서를 써줘",
+      "tag": "overlap",
+      "expected": "report_write",
+      "picked": "report_write",
+      "correct": true
+    },
+    {
+      "id": 9,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 주간 보고서를 세 줄로 줄여줘",
+      "tag": "overlap",
+      "expected": "summarize",
+      "picked": "summarize",
+      "correct": true
+    },
+    {
+      "id": 10,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 메일 문장을 좀 더 자연스럽게 다듬어줘",
+      "tag": "overlap",
+      "expected": "proofread",
+      "picked": "write_email",
+      "correct": false
+    },
+    {
+      "id": 11,
+      "trial": 1,
+      "repeats": 1,
+      "request": "내가 쓴 영어 문장 문법 맞는지 고쳐줘",
+      "tag": "overlap",
+      "expected": "proofread",
+      "picked": "proofread",
+      "correct": true
+    },
+    {
+      "id": 12,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 한국어 공지문을 영어로 옮겨줘",
+      "tag": "overlap",
+      "expected": "translate",
+      "picked": "translate",
+      "correct": true
+    },
+    {
+      "id": 13,
+      "trial": 1,
+      "repeats": 1,
+      "request": "팀장님께 프로젝트 진행 상황을 알리는 메시지 써줘",
+      "tag": "overlap",
+      "expected": "write_email",
+      "picked": "write_email",
+      "correct": true
+    },
+    {
+      "id": 14,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 CSV에서 평균 구하는 SQL 쿼리 짜줘",
+      "tag": "overlap",
+      "expected": "code_help",
+      "picked": "data_analysis",
+      "correct": false
+    },
+    {
+      "id": 15,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 판매 데이터 숫자들로 전월 대비 증감률 알려줘",
+      "tag": "overlap",
+      "expected": "data_analysis",
+      "picked": "none",
+      "correct": false
+    },
+    {
+      "id": 16,
+      "trial": 1,
+      "repeats": 1,
+      "request": "에러 로그가 너무 긴데 핵심만 추려줘",
+      "tag": "overlap",
+      "expected": "summarize",
+      "picked": "code_help",
+      "correct": false
+    },
+    {
+      "id": 17,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 파이썬 코드가 내는 오류가 왜 생기는지 알려줘",
+      "tag": "overlap",
+      "expected": "code_help",
+      "picked": "code_help",
+      "correct": true
+    },
+    {
+      "id": 18,
+      "trial": 1,
+      "repeats": 1,
+      "request": "받은 영어 메일에 대한 답장을 영어로 써줘",
+      "tag": "overlap",
+      "expected": "write_email",
+      "picked": "translate",
+      "correct": false
+    },
+    {
+      "id": 19,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 보고서 문장 중 어색한 표현만 고쳐줘",
+      "tag": "overlap",
+      "expected": "proofread",
+      "picked": "proofread",
+      "correct": true
+    },
+    {
+      "id": 20,
+      "trial": 1,
+      "repeats": 1,
+      "request": "분기 매출 표를 보고 결과 보고서를 작성해줘",
+      "tag": "overlap",
+      "expected": "report_write",
+      "picked": "report_write",
+      "correct": true
+    },
+    {
+      "id": 21,
+      "trial": 1,
+      "repeats": 1,
+      "request": "영어로 된 이 매출 보고서를 한국어로 요약해줘",
+      "tag": "ambiguous",
+      "expected": "summarize",
+      "picked": "translate",
+      "correct": true
+    },
+    {
+      "id": 22,
+      "trial": 1,
+      "repeats": 1,
+      "request": "설문 결과 표를 분석해서 팀에 보낼 메일 초안 써줘",
+      "tag": "ambiguous",
+      "expected": "write_email",
+      "picked": "write_email",
+      "correct": true
+    },
+    {
+      "id": 23,
+      "trial": 1,
+      "repeats": 1,
+      "request": "긴 회의록을 요약해서 참석자들에게 보낼 메일로 만들어줘",
+      "tag": "ambiguous",
+      "expected": "write_email",
+      "picked": "summarize",
+      "correct": true
+    },
+    {
+      "id": 24,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이 코드 주석에 쓴 영어를 자연스럽게 고쳐줘",
+      "tag": "ambiguous",
+      "expected": "proofread",
+      "picked": "code_help",
+      "correct": true
+    },
+    {
+      "id": 25,
+      "trial": 1,
+      "repeats": 1,
+      "request": "번역가가 되려면 뭘 공부해야 해?",
+      "tag": "none",
+      "expected": "none",
+      "picked": "translate",
+      "correct": false
+    },
+    {
+      "id": 26,
+      "trial": 1,
+      "repeats": 1,
+      "request": "요약을 잘하는 방법 좀 알려줘",
+      "tag": "none",
+      "expected": "none",
+      "picked": "summarize",
+      "correct": false
+    },
+    {
+      "id": 27,
+      "trial": 1,
+      "repeats": 1,
+      "request": "엑셀에서 자주 쓰는 단축키 알려줘",
+      "tag": "none",
+      "expected": "none",
+      "picked": "none",
+      "correct": true
+    },
+    {
+      "id": 28,
+      "trial": 1,
+      "repeats": 1,
+      "request": "이메일 주소 만들 때 쓸 아이디 추천해줘",
+      "tag": "none",
+      "expected": "none",
+      "picked": "write_email",
+      "correct": false
+    },
+    {
+      "id": 29,
+      "trial": 1,
+      "repeats": 1,
+      "request": "코딩 공부는 어떤 언어로 시작하는 게 좋아?",
+      "tag": "none",
+      "expected": "none",
+      "picked": "none",
+      "correct": true
+    },
+    {
+      "id": 30,
+      "trial": 1,
+      "repeats": 1,
+      "request": "보고서 마감이 내일인데 너무 스트레스 받아",
+      "tag": "none",
+      "expected": "none",
+      "picked": "none",
+      "correct": true
+    },
+    {
+      "id": 31,
+      "trial": 1,
+      "repeats": 1,
+      "request": "맞춤법 검사기 중에 뭐가 제일 좋아?",
+      "tag": "none",
+      "expected": "none",
+      "picked": "proofread",
+      "correct": false
+    },
+    {
+      "id": 32,
+      "trial": 1,
+      "repeats": 1,
+      "request": "점심 메뉴 추천해줘",
+      "tag": "none",
+      "expected": "none",
+      "picked": "none",
+      "correct": true
+    }
+  ]
+}
