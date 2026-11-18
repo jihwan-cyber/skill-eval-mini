@@ -19,6 +19,12 @@ NONE = "none"
 INVALID = "invalid"  # 스킬 목록에 없는 이름을 답한 경우
 EMPTY = "empty"  # 텍스트 답이 없는 경우 (예: 생각하다가 max_tokens에 걸림)
 
+# 라우터 모델에게 주는 기본 지시문. improve.py 가 이 문장을 개선 대상으로 삼는다.
+DEFAULT_INSTRUCTION = (
+    "가장 알맞은 스킬 이름 하나만 답하세요. "
+    "맞는 스킬이 없으면 none 이라고만 답하세요."
+)
+
 # ---------------------------------------------------------------- 선택기
 
 # 키 없이 파이프라인을 검증하고, 모델 결과와 비교할 기준선용 키워드.
@@ -43,7 +49,7 @@ def keyword_selector(request, skills):
     return (best if scores[best] > 0 else NONE), {}
 
 
-def make_api_selector(model, effort):
+def make_api_selector(model, effort, instruction=DEFAULT_INSTRUCTION):
     import anthropic  # API 모드에서만 필요
 
     client = anthropic.Anthropic()
@@ -53,8 +59,7 @@ def make_api_selector(model, effort):
         prompt = (
             f"사용 가능한 스킬 목록:\n{skill_text}\n\n"
             f"사용자 요청: {request}\n\n"
-            "가장 알맞은 스킬 이름 하나만 답하세요. "
-            "맞는 스킬이 없으면 none 이라고만 답하세요."
+            f"{instruction}"
         )
         resp = client.messages.create(
             model=model,

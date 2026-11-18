@@ -1,0 +1,31 @@
+{
+  "skills_dirs": ["skills", "skills_extra"],
+  "note": "자동 개선 루프의 채점용 테스트셋. improve.py 의 개선 모델은 이 파일을 보지 않는다.",
+  "cases": [
+    {"id": 101, "tag": "clear", "request": "이 계약서를 다섯 줄로 요약해줘", "expected": "summarize"},
+    {"id": 102, "tag": "clear", "request": "이 메뉴판을 중국어로 번역해줘", "expected": "translate"},
+    {"id": 103, "tag": "clear", "request": "리액트 컴포넌트에서 무한 렌더링 나는 거 고쳐줘", "expected": "code_help"},
+    {"id": 104, "tag": "clear", "request": "출장 결과 보고서를 작성해줘", "expected": "report_write"},
+    {"id": 105, "tag": "clear", "request": "자기소개서 맞춤법 좀 봐줘", "expected": "proofread"},
+    {"id": 106, "tag": "overlap", "request": "이 엑셀 표에서 부서별 평균 연봉 계산해줘", "expected": "data_analysis", "confusable": "code_help"},
+    {"id": 107, "tag": "overlap", "request": "면접 일정을 확정하는 메일을 지원자에게 써줘", "expected": "write_email", "confusable": "report_write"},
+    {"id": 108, "tag": "overlap", "request": "이 논문 요약본을 영어로 옮겨줘", "expected": "translate", "confusable": "summarize"},
+    {"id": 109, "tag": "overlap", "request": "이 로그 데이터에서 시간대별 에러 건수를 세어줘", "expected": "data_analysis", "confusable": "code_help"},
+    {"id": 110, "tag": "overlap", "request": "이 기획서 초안의 어색한 문장을 고쳐줘", "expected": "proofread", "confusable": "report_write"},
+    {"id": 111, "tag": "overlap", "request": "고객 문의에 답하는 카톡 메시지 초안 써줘", "expected": "write_email", "confusable": "proofread"},
+    {"id": 112, "tag": "overlap", "request": "코딩 테스트 문제 풀이 코드를 짜줘", "expected": "code_help", "confusable": "none"},
+
+    {"id": 113, "tag": "none", "request": "요약본 만들 때 쓰기 좋은 앱 있어?", "expected": "none"},
+    {"id": 114, "tag": "none", "request": "번역 앱 중에 뭐가 제일 정확해?", "expected": "none"},
+    {"id": 115, "tag": "none", "request": "파이썬 개발자 연봉은 보통 얼마야?", "expected": "none"},
+    {"id": 116, "tag": "none", "request": "데이터 분석가가 되려면 어떤 자격증이 필요해?", "expected": "none"},
+    {"id": 117, "tag": "none", "request": "업무 메일 답장은 보통 얼마나 빨리 해야 해?", "expected": "none"},
+    {"id": 118, "tag": "none", "request": "보고서 잘 쓰는 사람들의 공통점이 뭐야?", "expected": "none"},
+    {"id": 119, "tag": "none", "request": "사람들이 자주 틀리는 맞춤법 몇 개 알려줘", "expected": "none"},
+    {"id": 120, "tag": "none", "request": "엑셀이랑 구글 시트 중에 뭐가 나아?", "expected": "none"},
+    {"id": 121, "tag": "none", "request": "영어 공부 꾸준히 하는 팁 알려줘", "expected": "none"},
+    {"id": 122, "tag": "none", "request": "코드 리뷰 문화가 왜 중요해?", "expected": "none"},
+    {"id": 123, "tag": "none", "request": "회의가 너무 많아서 피곤해", "expected": "none"},
+    {"id": 124, "tag": "none", "request": "이메일 마케팅이 효과가 있어?", "expected": "none"}
+  ]
+}
