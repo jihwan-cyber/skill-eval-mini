@@ -12,6 +12,7 @@
     "false_trigger_rate": 0.5,
     "miss_rate": 0.0,
     "invalid_count": 0,
+    "empty_count": 0,
     "per_skill": {
       "code_help": {
         "precision": 0.75,

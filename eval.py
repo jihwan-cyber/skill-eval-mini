@@ -15,6 +15,7 @@ from load_skills import load_skills
 
 NONE = "none"
 INVALID = "invalid"  # 스킬 목록에 없는 이름을 답한 경우
+EMPTY = "empty"  # 텍스트 답이 없는 경우 (예: 생각하다가 max_tokens에 걸림)
 
 # ---------------------------------------------------------------- 선택기
 
@@ -38,7 +39,7 @@ def keyword_selector(request, skills):
     return (best if scores[best] > 0 else NONE), {}
 
 
-def make_api_selector(model):
+def make_api_selector(model, effort):
     import anthropic  # API 모드에서만 필요
 
     client = anthropic.Anthropic()
@@ -53,12 +54,15 @@ def make_api_selector(model):
         )
         resp = client.messages.create(
             model=model,
-            max_tokens=50,
+            # Haiku 5.5는 기본으로 생각(thinking)을 먼저 하므로, 생각할 여유를 둔다.
+            max_tokens=1024,
+            output_config={"effort": effort},
             messages=[{"role": "user", "content": prompt}],
         )
         raw = "".join(b.text for b in resp.content if b.type == "text")
         usage = {
             "raw": raw,
+            "stop_reason": resp.stop_reason,
             "input_tokens": resp.usage.input_tokens,
             "output_tokens": resp.usage.output_tokens,
         }
@@ -69,7 +73,9 @@ def make_api_selector(model):
 
 def normalize(raw, skills):
     """모델 답을 스킬 이름 / none / invalid 중 하나로 정리한다."""
-    token = re.sub(r"[`'\".\s]", "", (raw or "").strip().lower())
+    if not (raw or "").strip():
+        return EMPTY
+    token = re.sub(r"[`'\".\s]", "", raw.strip().lower())
     if token in skills or token == NONE:
         return token
     return INVALID
@@ -111,13 +117,14 @@ def compute_metrics(rows, labels):
         # 스킬이 필요 없는데 스킬을 고른 비율 (오발동)
         # (목록 밖 답변은 따로 센다)
         "false_trigger_rate": round(
-            sum(r["picked"] not in (NONE, INVALID) for r in none_rows) / len(none_rows), 3
+            sum(r["picked"] not in (NONE, INVALID, EMPTY) for r in none_rows) / len(none_rows), 3
         ) if none_rows else None,
         # 스킬이 필요한데 none 을 고른 비율 (누락)
         "miss_rate": round(
             sum(r["picked"] == NONE for r in skill_rows) / len(skill_rows), 3
         ) if skill_rows else None,
         "invalid_count": sum(r["picked"] == INVALID for r in rows),
+        "empty_count": sum(r["picked"] == EMPTY for r in rows),
         "per_skill": per_skill,
         "confusion": {e: dict(c) for e, c in confusion.items()},
     }
@@ -129,6 +136,7 @@ def print_report(rows, metrics):
     print("오발동률(none인데 스킬 선택):", metrics["false_trigger_rate"])
     print("누락률(스킬 필요한데 none):", metrics["miss_rate"])
     print("목록 밖 답변 수:", metrics["invalid_count"])
+    print("빈 답변 수:", metrics["empty_count"])
     print("\n스킬별 정밀도 / 재현율")
     for name, m in metrics["per_skill"].items():
         print(f"  {name:14s} P={m['precision']}  R={m['recall']}  (n={m['support']})")
@@ -136,8 +144,8 @@ def print_report(rows, metrics):
     for r in rows:
         if not r["correct"]:
             print(f"  #{r['id']} [{r['tag']}] {r['expected']} -> {r['picked']} : {r['request']}")
-            if r["picked"] == INVALID and "raw" in r:
-                print(f"      모델 원문: {r['raw'][:80]!r}")
+            if r["picked"] in (INVALID, EMPTY) and "raw" in r:
+                print(f"      모델 원문: {r['raw'][:80]!r}  (stop_reason={r.get('stop_reason')})")
 
 
 # ---------------------------------------------------------------- 실행
@@ -163,6 +171,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--selector", choices=["keyword", "api"], default="keyword")
     ap.add_argument("--model", default="claude-haiku-5-5")
+    ap.add_argument("--effort", default="low", choices=["low", "medium", "high"])
     ap.add_argument("--cases", default="cases_v2.json")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
@@ -171,7 +180,7 @@ def main():
     with open(args.cases, encoding="utf-8") as f:
         cases = json.load(f)
 
-    selector = keyword_selector if args.selector == "keyword" else make_api_selector(args.model)
+    selector = keyword_selector if args.selector == "keyword" else make_api_selector(args.model, args.effort)
     rows = run(selector, skills, cases)
     metrics = compute_metrics(rows, list(skills) + [NONE])
     print_report(rows, metrics)
