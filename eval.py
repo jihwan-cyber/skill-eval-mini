@@ -134,11 +134,13 @@ def compute_metrics(rows, labels):
         # 스킬이 필요 없는데 스킬을 고른 비율 (오발동)
         # (목록 밖 답변은 따로 센다)
         "false_trigger_rate": round(
-            sum(r["picked"] not in (NONE, INVALID, EMPTY) for r in none_rows) / len(none_rows), 3
+            # 정답 후보(acceptable)에 든 스킬을 고른 경우는 정답이므로 오발동으로 세지 않는다
+            sum(r["picked"] not in (NONE, INVALID, EMPTY) and not r["correct"] for r in none_rows)
+            / len(none_rows), 3
         ) if none_rows else None,
         # 스킬이 필요한데 none 을 고른 비율 (누락)
         "miss_rate": round(
-            sum(r["picked"] == NONE for r in skill_rows) / len(skill_rows), 3
+            sum(r["picked"] == NONE and not r["correct"] for r in skill_rows) / len(skill_rows), 3
         ) if skill_rows else None,
         "invalid_count": sum(r["picked"] == INVALID for r in rows),
         "empty_count": sum(r["picked"] == EMPTY for r in rows),
