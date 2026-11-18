@@ -13,6 +13,8 @@ AI 에이전트의 **스킬 선택**을 평가하는 축소판입니다.
 | `cases_v2.json` | 테스트셋 20개: clear 10 / overlap 6 / none 4 (스킬 5개) |
 | `cases_v3.json` | 테스트셋 32개: clear 7 / overlap 13 / ambiguous 4 / none 8 (스킬 7개) |
 | `eval.py` | 선택기를 바꿔 끼워 평가하고 지표를 계산 |
+| `improve.py` | 자동 개선 루프: 틀린 케이스로 지시문·description 수정안을 받아 좋아질 때만 채택 |
+| `cases_test.json` | 개선 루프 채점용 테스트셋 24개 (개선 모델은 보지 않음) |
 | `run.py`, `cases.json` | v1 (스킬 3개, 9케이스) |
 
 ## 실행
@@ -44,3 +46,16 @@ v3 케이스 파일은 `skills_dirs`로 어떤 스킬 폴더를 쓸지 직접 �
 | max_tokens=50 (버그) | 15/20 | - (5건이 생각하다 잘려 빈 답) |
 | effort low | 20/20 | 158 |
 | effort medium | 20/20 | 432 |
+
+## 자동 개선 루프
+```bash
+python3 improve.py --dry-run   # API 없이 흐름만 확인
+python3 improve.py             # 라우터 haiku-5-5(effort low), 개선 모델 opus-5-5, 3회 반복
+```
+1. 학습셋(`cases_v3.json`)으로 현재 설정(지시문 + description)을 평가합니다.
+2. 틀린 케이스와 이전에 거절된 수정안을 개선 모델에 보여 주고 수정안(JSON)을 받습니다.
+3. 형식 검사를 통과하고 학습셋 정확도가 올라갈 때만 채택합니다.
+4. 마지막에 개선 모델이 본 적 없는 `cases_test.json`으로 원본과 개선본을 비교합니다.
+
+원본 `skills/`는 수정하지 않습니다. 결과는 `improve_runs/summary.json`에 저장됩니다.
+학습셋 점수만 오르고 테스트셋 점수가 그대로라면 과적합으로 봅니다.
