@@ -109,8 +109,9 @@ def compute_metrics(rows, labels):
         "total": total,
         "accuracy_by_tag": {t: f"{c}/{n}" for t, (c, n) in by_tag.items()},
         # 스킬이 필요 없는데 스킬을 고른 비율 (오발동)
+        # (목록 밖 답변은 따로 센다)
         "false_trigger_rate": round(
-            sum(r["picked"] != NONE for r in none_rows) / len(none_rows), 3
+            sum(r["picked"] not in (NONE, INVALID) for r in none_rows) / len(none_rows), 3
         ) if none_rows else None,
         # 스킬이 필요한데 none 을 고른 비율 (누락)
         "miss_rate": round(
@@ -135,6 +136,8 @@ def print_report(rows, metrics):
     for r in rows:
         if not r["correct"]:
             print(f"  #{r['id']} [{r['tag']}] {r['expected']} -> {r['picked']} : {r['request']}")
+            if r["picked"] == INVALID and "raw" in r:
+                print(f"      모델 원문: {r['raw'][:80]!r}")
 
 
 # ---------------------------------------------------------------- 실행
