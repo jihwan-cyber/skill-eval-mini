@@ -1,16 +1,255 @@
 {
-  "skills_dirs": ["skills", "skills_extra"],
-  "note": "외부 테스트셋: 실험에 참여하지 않은 사람이 'AI 비서에게 할 법한 요청'으로 쓴 문장을 그대로 사용(오타 포함). 정답은 스킬 description 기준으로 라벨링. 요약할 글 없이 '정리해줘'라고 한 요청은 none/summarize 둘 다 허용.",
+  "skills_dirs": [
+    "skills",
+    "skills_extra"
+  ],
+  "note": "외부 테스트셋: 실험에 참여하지 않은 사람들이 'AI 비서에게 할 법한 요청'으로 쓴 문장을 그대로 사용(오타 포함). external_1~3은 작성자 묶음(2·3이 같은 사람일 수 있음). 정답은 스킬 description 기준으로 라벨링하고, 애매한 요청은 acceptable 로 여러 답을 허용.",
   "cases": [
-    {"id": 201, "source": "external_1", "tag": "none", "request": "오늘 날씨 어때?", "expected": "none"},
-    {"id": 202, "source": "external_1", "tag": "ambiguous", "request": "오늘 국내 뉴스 주요 내용들 정리해줘", "expected": "none", "acceptable": ["none", "summarize"]},
-    {"id": 203, "source": "external_1", "tag": "ambiguous", "request": "오늘 내 주식 포트폴리오에 있는 주식들 위주로 국외 뉴스 정리해줘", "expected": "none", "acceptable": ["none", "summarize"]},
-    {"id": 204, "source": "external_1", "tag": "ambiguous", "request": "반도체 관련 뉴스 정리해줘", "expected": "none", "acceptable": ["none", "summarize"]},
-    {"id": 205, "source": "external_1", "tag": "none", "request": "열역학 제 2법칙에 대해서 알려줘", "expected": "none"},
-    {"id": 206, "source": "external_1", "tag": "none", "request": "응력에 대해서 알려줘", "expected": "none"},
-    {"id": 207, "source": "external_1", "tag": "none", "request": "나리타 공황에서 도쿄역까지 게이세이 본선 타고 갈건데 길 알려줘", "expected": "none"},
-    {"id": 208, "source": "external_1", "tag": "none", "request": "돈키호테 텍스프리 방법 알려줘", "expected": "none"},
-    {"id": 209, "source": "external_1", "tag": "none", "request": "요즘 인스타나 틱톡에서 인기있는 챌린지 알려줘", "expected": "none"},
-    {"id": 210, "source": "external_1", "tag": "ambiguous", "request": "AI글래스에 대한 이슈들 정리해줘", "expected": "none", "acceptable": ["none", "summarize"]}
+    {
+      "id": 201,
+      "source": "external_1",
+      "tag": "none",
+      "request": "오늘 날씨 어때?",
+      "expected": "none"
+    },
+    {
+      "id": 202,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "오늘 국내 뉴스 주요 내용들 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 203,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "오늘 내 주식 포트폴리오에 있는 주식들 위주로 국외 뉴스 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 204,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "반도체 관련 뉴스 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 205,
+      "source": "external_1",
+      "tag": "none",
+      "request": "열역학 제 2법칙에 대해서 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 206,
+      "source": "external_1",
+      "tag": "none",
+      "request": "응력에 대해서 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 207,
+      "source": "external_1",
+      "tag": "none",
+      "request": "나리타 공황에서 도쿄역까지 게이세이 본선 타고 갈건데 길 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 208,
+      "source": "external_1",
+      "tag": "none",
+      "request": "돈키호테 텍스프리 방법 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 209,
+      "source": "external_1",
+      "tag": "none",
+      "request": "요즘 인스타나 틱톡에서 인기있는 챌린지 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 210,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "AI글래스에 대한 이슈들 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 211,
+      "source": "external_2",
+      "tag": "ambiguous",
+      "request": "이거 무슨 말인지 쉽게 설명 좀 해줘. 읽어도 뭔 소린지 모르겠어.",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 212,
+      "source": "external_2",
+      "tag": "ambiguous",
+      "request": "내일 발표인데 이거 가지고 대충 발표할 수 있게 대본 좀 만들어줘.",
+      "expected": "report_write",
+      "acceptable": [
+        "report_write",
+        "summarize"
+      ]
+    },
+    {
+      "id": 213,
+      "source": "external_2",
+      "tag": "clear",
+      "request": "영어로 바꿔줘. 근데 번역기 돌린 것처럼 말고 자연스럽게 해줘.",
+      "expected": "translate"
+    },
+    {
+      "id": 214,
+      "source": "external_2",
+      "tag": "ambiguous",
+      "request": "엑셀 잘 모르는데 이거 자동으로 계산되게 할 수 없나?",
+      "expected": "code_help",
+      "acceptable": [
+        "code_help",
+        "data_analysis"
+      ]
+    },
+    {
+      "id": 215,
+      "source": "external_2",
+      "tag": "none",
+      "request": "영어 공부 좀 해보려고 하는데 뭐부터 해야 돼? 너무 어려운 건 말고.",
+      "expected": "none"
+    },
+    {
+      "id": 216,
+      "source": "external_2",
+      "tag": "none",
+      "request": "키 180에 몸무게 80이면 이 옷 입었을 때 어떻게 보일지 사진으로 보여줘.",
+      "expected": "none"
+    },
+    {
+      "id": 217,
+      "source": "external_2",
+      "tag": "none",
+      "request": "집에 계란이랑 고기밖에 없는데 뭐 해 먹지? 귀찮으니까 간단한 걸로.",
+      "expected": "none"
+    },
+    {
+      "id": 218,
+      "source": "external_2",
+      "tag": "none",
+      "request": "이거랑 저거 중에 뭐가 더 나아? 가격도 생각해서 하나 골라줘.",
+      "expected": "none"
+    },
+    {
+      "id": 219,
+      "source": "external_2",
+      "tag": "none",
+      "request": "이 사진에서 다른 건 아무것도 건들지 말고 배경만 흰색으로 바꿔줘.",
+      "expected": "none"
+    },
+    {
+      "id": 220,
+      "source": "external_2",
+      "tag": "clear",
+      "request": "이번 달에 돈을 어디다 썼는지 모르겠는데 지출 정리 좀 해줘. 돈 아끼는 방법도 알려주고.",
+      "expected": "data_analysis"
+    },
+    {
+      "id": 221,
+      "source": "external_3",
+      "tag": "none",
+      "request": "아침에 맨날 늦게 일어나는데 일찍 일어나는 방법 없나? 알람을 맞춰도 못 일어나겠어.",
+      "expected": "none"
+    },
+    {
+      "id": 222,
+      "source": "external_3",
+      "tag": "none",
+      "request": "친구 생일인데 선물 뭐 사주지? 너무 비싼 건 부담스럽고 그렇다고 너무 성의 없어 보이는 것도 싫어.",
+      "expected": "none"
+    },
+    {
+      "id": 223,
+      "source": "external_3",
+      "tag": "none",
+      "request": "다이어트하려고 하는데 밥은 먹고 싶어. 먹으면서 살 빼는 방법 좀 알려줘.",
+      "expected": "none"
+    },
+    {
+      "id": 224,
+      "source": "external_3",
+      "tag": "none",
+      "request": "이 사진 뭔가 이상한데 어디가 문제인지 모르겠어. 좀 더 예쁘게 보이게 수정해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 225,
+      "source": "external_3",
+      "tag": "none",
+      "request": "노트북 하나 사려고 하는데 종류가 너무 많아서 모르겠어. 그냥 적당히 오래 쓸 만한 걸로 추천해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 226,
+      "source": "external_3",
+      "tag": "none",
+      "request": "오늘 저녁 뭐 먹을까? 배달시킬 건데 맨날 먹던 거 말고 다른 거 추천해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 227,
+      "source": "external_3",
+      "tag": "ambiguous",
+      "request": "이거 너무 어려운데 초등학생도 이해할 수 있게 설명해 줘.",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 228,
+      "source": "external_3",
+      "tag": "ambiguous",
+      "request": "자기소개서 써야 되는데 첫 문장부터 막혔어. 어떻게 시작해야 할지 좀 도와줘.",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "report_write"
+      ]
+    },
+    {
+      "id": 229,
+      "source": "external_3",
+      "tag": "none",
+      "request": "여행 가고 싶은데 어디로 가야 할지 모르겠어. 2박 3일 정도로 돈 많이 안 드는 곳 추천해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 230,
+      "source": "external_3",
+      "tag": "none",
+      "request": "요즘 시간이 너무 빨리 가는 것 같은데 할 일은 많고 맨날 미뤄. 하루 일정을 어떻게 짜야 좀 나아질까?",
+      "expected": "none"
+    }
   ]
 }
