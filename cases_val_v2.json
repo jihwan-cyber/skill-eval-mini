@@ -1,0 +1,233 @@
+{
+  "skills_dirs": [
+    "skills",
+    "skills_extra"
+  ],
+  "note": "자동 개선의 검증셋 v2: v1(자연 요청) + 작업 요청 절반(정답 스킬별로 번갈아 배정).",
+  "cases": [
+    {
+      "id": 201,
+      "source": "external_1",
+      "tag": "none",
+      "request": "오늘 날씨 어때?",
+      "expected": "none"
+    },
+    {
+      "id": 202,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "오늘 국내 뉴스 주요 내용들 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 204,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "반도체 관련 뉴스 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 206,
+      "source": "external_1",
+      "tag": "none",
+      "request": "응력에 대해서 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 208,
+      "source": "external_1",
+      "tag": "none",
+      "request": "돈키호테 텍스프리 방법 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 211,
+      "source": "external_2",
+      "tag": "ambiguous",
+      "request": "이거 무슨 말인지 쉽게 설명 좀 해줘. 읽어도 뭔 소린지 모르겠어.",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 213,
+      "source": "external_2",
+      "tag": "clear",
+      "request": "영어로 바꿔줘. 근데 번역기 돌린 것처럼 말고 자연스럽게 해줘.",
+      "expected": "translate"
+    },
+    {
+      "id": 214,
+      "source": "external_2",
+      "tag": "ambiguous",
+      "request": "엑셀 잘 모르는데 이거 자동으로 계산되게 할 수 없나?",
+      "expected": "code_help",
+      "acceptable": [
+        "code_help",
+        "data_analysis"
+      ]
+    },
+    {
+      "id": 215,
+      "source": "external_2",
+      "tag": "none",
+      "request": "영어 공부 좀 해보려고 하는데 뭐부터 해야 돼? 너무 어려운 건 말고.",
+      "expected": "none"
+    },
+    {
+      "id": 217,
+      "source": "external_2",
+      "tag": "none",
+      "request": "집에 계란이랑 고기밖에 없는데 뭐 해 먹지? 귀찮으니까 간단한 걸로.",
+      "expected": "none"
+    },
+    {
+      "id": 219,
+      "source": "external_2",
+      "tag": "none",
+      "request": "이 사진에서 다른 건 아무것도 건들지 말고 배경만 흰색으로 바꿔줘.",
+      "expected": "none"
+    },
+    {
+      "id": 222,
+      "source": "external_3",
+      "tag": "none",
+      "request": "친구 생일인데 선물 뭐 사주지? 너무 비싼 건 부담스럽고 그렇다고 너무 성의 없어 보이는 것도 싫어.",
+      "expected": "none"
+    },
+    {
+      "id": 224,
+      "source": "external_3",
+      "tag": "none",
+      "request": "이 사진 뭔가 이상한데 어디가 문제인지 모르겠어. 좀 더 예쁘게 보이게 수정해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 226,
+      "source": "external_3",
+      "tag": "none",
+      "request": "오늘 저녁 뭐 먹을까? 배달시킬 건데 맨날 먹던 거 말고 다른 거 추천해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 228,
+      "source": "external_3",
+      "tag": "ambiguous",
+      "request": "자기소개서 써야 되는데 첫 문장부터 막혔어. 어떻게 시작해야 할지 좀 도와줘.",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "report_write"
+      ]
+    },
+    {
+      "id": 230,
+      "source": "external_3",
+      "tag": "none",
+      "request": "요즘 시간이 너무 빨리 가는 것 같은데 할 일은 많고 맨날 미뤄. 하루 일정을 어떻게 짜야 좀 나아질까?",
+      "expected": "none"
+    },
+    {
+      "id": 308,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 엑셀 파일 계산 좀 해줘. 합계랑 평균 구하는 것도 넣어 줘.",
+      "expected": "data_analysis",
+      "acceptable": [
+        "data_analysis",
+        "code_help"
+      ]
+    },
+    {
+      "id": 317,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 글 내용 가지고 PPT 만들 건데 슬라이드별로 내용 나눠 줘.",
+      "expected": "report_write",
+      "acceptable": [
+        "report_write",
+        "summarize"
+      ]
+    },
+    {
+      "id": 320,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 파일들 내용 다 비슷한 것 같은데 서로 다른 점만 정리해 줘.",
+      "expected": "summarize",
+      "acceptable": [
+        "summarize",
+        "none"
+      ]
+    },
+    {
+      "id": 314,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 코드 그냥 복붙했는데 안 돌아가. 어떻게 해야 되는지 좀 봐줘.",
+      "expected": "code_help"
+    },
+    {
+      "id": 315,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 표 숫자들 계산 맞는지 확인 좀 해줘. 내가 계산하기 귀찮아.",
+      "expected": "data_analysis"
+    },
+    {
+      "id": 312,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 문장 좀 이상하지 않아? 읽기 편하게 고쳐 줘.",
+      "expected": "proofread"
+    },
+    {
+      "id": 311,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 PDF 너무 긴데 내가 알아야 할 내용만 뽑아 줘.",
+      "expected": "summarize"
+    },
+    {
+      "id": 307,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이거 영어로 돼 있는데 무슨 말인지 모르겠어. 한국어로 번역해 줘.",
+      "expected": "translate"
+    },
+    {
+      "id": 303,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 메일 답장해야 되는데 뭐라고 보내야 할지 모르겠어. 적당히 예의 있게 써 줘.",
+      "expected": "write_email"
+    },
+    {
+      "id": 310,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "none",
+      "request": "이 사진에 있는 글씨가 잘 안 보이는데 좀 선명하게 만들어서 읽어 줘.",
+      "expected": "none"
+    }
+  ]
+}
