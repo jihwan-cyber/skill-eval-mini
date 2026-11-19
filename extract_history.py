@@ -126,6 +126,11 @@ def extract(conversations):
 
 def load_conversations(path):
     """conversations.json, 내보낸 zip, 또는 압축을 푼 폴더에서 대화 목록을 읽는다."""
+    if not str(path).strip():
+        raise SystemExit(
+            "경로가 비어 있습니다. 아직 내보낸 zip 파일을 받지 않았다면, 먼저 Claude 또는 챗GPT 설정에서 "
+            "데이터 내보내기를 신청하고 이메일로 받은 zip 을 내려받아 주세요."
+        )
     p = Path(path).expanduser()
     if not p.exists():
         raise SystemExit(
