@@ -1,0 +1,347 @@
+{
+ "rule_doc": "LABELING.md",
+ "labels": {
+  "201": {
+   "expected": "web_research"
+  },
+  "202": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "summarize"
+   ]
+  },
+  "203": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "summarize"
+   ]
+  },
+  "204": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "summarize"
+   ]
+  },
+  "205": {
+   "expected": "none"
+  },
+  "206": {
+   "expected": "none"
+  },
+  "207": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "none"
+   ]
+  },
+  "208": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "none"
+   ]
+  },
+  "209": {
+   "expected": "web_research"
+  },
+  "210": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "summarize"
+   ]
+  },
+  "211": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "summarize"
+   ]
+  },
+  "212": {
+   "expected": "report_write",
+   "acceptable": [
+    "report_write",
+    "summarize"
+   ]
+  },
+  "213": {
+   "expected": "translate"
+  },
+  "214": {
+   "expected": "code_help",
+   "acceptable": [
+    "code_help",
+    "data_analysis"
+   ]
+  },
+  "215": {
+   "expected": "none"
+  },
+  "216": {
+   "expected": "none"
+  },
+  "217": {
+   "expected": "none"
+  },
+  "218": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "web_research"
+   ]
+  },
+  "219": {
+   "expected": "none"
+  },
+  "220": {
+   "expected": "data_analysis"
+  },
+  "221": {
+   "expected": "none"
+  },
+  "222": {
+   "expected": "none"
+  },
+  "223": {
+   "expected": "none"
+  },
+  "224": {
+   "expected": "none"
+  },
+  "225": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "web_research"
+   ]
+  },
+  "226": {
+   "expected": "none"
+  },
+  "227": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "summarize"
+   ]
+  },
+  "228": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "report_write"
+   ]
+  },
+  "229": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "web_research"
+   ]
+  },
+  "230": {
+   "expected": "none"
+  },
+  "401": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "none"
+   ]
+  },
+  "402": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "web_research"
+   ]
+  },
+  "403": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "report_write",
+    "web_research"
+   ]
+  },
+  "404": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "web_research"
+   ]
+  },
+  "405": {
+   "expected": "web_research"
+  },
+  "406": {
+   "expected": "none"
+  },
+  "407": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "data_analysis"
+   ]
+  },
+  "408": {
+   "expected": "none"
+  },
+  "409": {
+   "expected": "web_research"
+  },
+  "410": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "data_analysis"
+   ]
+  },
+  "411": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "data_analysis"
+   ]
+  },
+  "412": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "none"
+   ]
+  },
+  "413": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "summarize"
+   ]
+  },
+  "414": {
+   "expected": "none"
+  },
+  "415": {
+   "expected": "web_research"
+  },
+  "416": {
+   "expected": "web_research"
+  },
+  "417": {
+   "expected": "none"
+  },
+  "418": {
+   "expected": "web_research"
+  },
+  "419": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "report_write",
+    "web_research"
+   ]
+  },
+  "420": {
+   "expected": "web_research"
+  },
+  "421": {
+   "expected": "web_research"
+  },
+  "422": {
+   "expected": "web_research",
+   "acceptable": [
+    "web_research",
+    "summarize",
+    "none"
+   ]
+  },
+  "423": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "summarize"
+   ]
+  },
+  "424": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "report_write",
+    "web_research"
+   ]
+  },
+  "425": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "summarize",
+    "web_research"
+   ]
+  },
+  "426": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "write_email",
+    "report_write",
+    "web_research"
+   ]
+  },
+  "427": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "write_email",
+    "report_write",
+    "web_research"
+   ]
+  },
+  "428": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "write_email",
+    "report_write",
+    "web_research"
+   ]
+  },
+  "429": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "report_write"
+   ]
+  },
+  "430": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "report_write",
+    "write_email",
+    "web_research"
+   ]
+  },
+  "431": {
+   "expected": "none"
+  },
+  "432": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "report_write"
+   ]
+  },
+  "433": {
+   "expected": "none",
+   "acceptable": [
+    "none",
+    "report_write"
+   ]
+  }
+ }
+}
