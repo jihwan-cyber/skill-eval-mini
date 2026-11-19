@@ -1,0 +1,211 @@
+{
+  "skills_dirs": [
+    "skills",
+    "skills_extra"
+  ],
+  "note": "자동 개선의 보류셋 v2: v1(자연 요청) + 작업 요청 절반(정답 스킬별로 번갈아 배정).",
+  "cases": [
+    {
+      "id": 203,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "오늘 내 주식 포트폴리오에 있는 주식들 위주로 국외 뉴스 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 205,
+      "source": "external_1",
+      "tag": "none",
+      "request": "열역학 제 2법칙에 대해서 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 207,
+      "source": "external_1",
+      "tag": "none",
+      "request": "나리타 공황에서 도쿄역까지 게이세이 본선 타고 갈건데 길 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 209,
+      "source": "external_1",
+      "tag": "none",
+      "request": "요즘 인스타나 틱톡에서 인기있는 챌린지 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 210,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "AI글래스에 대한 이슈들 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 212,
+      "source": "external_2",
+      "tag": "ambiguous",
+      "request": "내일 발표인데 이거 가지고 대충 발표할 수 있게 대본 좀 만들어줘.",
+      "expected": "report_write",
+      "acceptable": [
+        "report_write",
+        "summarize"
+      ]
+    },
+    {
+      "id": 216,
+      "source": "external_2",
+      "tag": "none",
+      "request": "키 180에 몸무게 80이면 이 옷 입었을 때 어떻게 보일지 사진으로 보여줘.",
+      "expected": "none"
+    },
+    {
+      "id": 218,
+      "source": "external_2",
+      "tag": "none",
+      "request": "이거랑 저거 중에 뭐가 더 나아? 가격도 생각해서 하나 골라줘.",
+      "expected": "none"
+    },
+    {
+      "id": 220,
+      "source": "external_2",
+      "tag": "clear",
+      "request": "이번 달에 돈을 어디다 썼는지 모르겠는데 지출 정리 좀 해줘. 돈 아끼는 방법도 알려주고.",
+      "expected": "data_analysis"
+    },
+    {
+      "id": 221,
+      "source": "external_3",
+      "tag": "none",
+      "request": "아침에 맨날 늦게 일어나는데 일찍 일어나는 방법 없나? 알람을 맞춰도 못 일어나겠어.",
+      "expected": "none"
+    },
+    {
+      "id": 223,
+      "source": "external_3",
+      "tag": "none",
+      "request": "다이어트하려고 하는데 밥은 먹고 싶어. 먹으면서 살 빼는 방법 좀 알려줘.",
+      "expected": "none"
+    },
+    {
+      "id": 225,
+      "source": "external_3",
+      "tag": "none",
+      "request": "노트북 하나 사려고 하는데 종류가 너무 많아서 모르겠어. 그냥 적당히 오래 쓸 만한 걸로 추천해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 227,
+      "source": "external_3",
+      "tag": "ambiguous",
+      "request": "이거 너무 어려운데 초등학생도 이해할 수 있게 설명해 줘.",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 229,
+      "source": "external_3",
+      "tag": "none",
+      "request": "여행 가고 싶은데 어디로 가야 할지 모르겠어. 2박 3일 정도로 돈 많이 안 드는 곳 추천해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 306,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 문서 내용 좀 읽어보고 이상한 부분이나 틀린 내용 있으면 알려줘.",
+      "expected": "proofread",
+      "acceptable": [
+        "proofread",
+        "none"
+      ]
+    },
+    {
+      "id": 316,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 메일 무슨 말인지 쉽게 풀어 설명해 줘. 그래서 내가 뭘 해야 하는지도 알려줘.",
+      "expected": "summarize",
+      "acceptable": [
+        "summarize",
+        "none"
+      ]
+    },
+    {
+      "id": 304,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 코드 왜 오류 나는 거야? 내가 잘 모르겠으니까 어디가 문제인지 알려줘.",
+      "expected": "code_help"
+    },
+    {
+      "id": 302,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 표 보니까 뭐가 제일 많이 팔린 건지 모르겠어. 순위대로 정리해 줘.",
+      "expected": "data_analysis"
+    },
+    {
+      "id": 309,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 글 너무 딱딱한데 좀 사람이 쓴 것처럼 자연스럽게 바꿔 줘.",
+      "expected": "proofread"
+    },
+    {
+      "id": 301,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 글 너무 긴데 중요한 내용만 간단하게 요약해 줘.",
+      "expected": "summarize"
+    },
+    {
+      "id": 319,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이거 너무 길고 복잡한데 세 줄 정도로 줄여줄 수 있어?",
+      "expected": "summarize"
+    },
+    {
+      "id": 318,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 사진에 있는 메뉴들 번역해 주고 뭐가 맛있어 보이는지도 추천해 줘.",
+      "expected": "translate"
+    },
+    {
+      "id": 305,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "none",
+      "request": "이 사진 배경이 너무 지저분한데 깔끔하게 바꿔 줘. 사람은 그대로 두고.",
+      "expected": "none"
+    },
+    {
+      "id": 313,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "none",
+      "request": "이 사진 두 개 비교해서 뭐가 달라졌는지 알려줘.",
+      "expected": "none"
+    }
+  ]
+}

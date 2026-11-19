@@ -113,6 +113,10 @@ def main():
 
     outdir = Path(args.summary).parent
     suffix = (f"_{Path(args.cases).stem}" if args.cases else "") + ("_dry_run" if args.dry_run else "")
+    base_suffix, n = suffix, 2
+    while (outdir / f"ablation{suffix}.json").exists():  # 이전 실행 결과를 덮어쓰지 않는다
+        suffix = f"{base_suffix}_{n}"
+        n += 1
     with open(outdir / f"ablation{suffix}.json", "w", encoding="utf-8") as f:
         json.dump({"model": model, "effort": effort, "repeats": args.repeats, "results": results},
                   f, ensure_ascii=False, indent=2)
