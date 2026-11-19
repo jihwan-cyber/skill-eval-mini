@@ -258,6 +258,8 @@ python3 improve.py --val cases_val.json --holdout cases_holdout.json --outdir im
 개선 모델에게 검증셋 내용은 보여 주지 않고, "검증셋 점수가 떨어져 거절됐다"는 사실만 알려 줍니다.
 `--holdout`은 개선 과정에서 전혀 쓰지 않고 마지막 비교에만 씁니다.
 
+`extract_history.py`는 챗GPT·Claude에서 내보낸 `conversations.json`에서 실험 시작 전 대화의 첫 요청만 무작위로 뽑습니다. 이메일·전화번호·링크는 자동으로 가립니다. 기록 파일과 결과 파일(`history_requests.txt`)은 `.gitignore`에 들어 있어 커밋되지 않습니다.
+
 `eval.py` 옵션: `--effort low|medium|high` (기본 low), `--repeats N`, `--model`, `--out`
 
 다른 케이스 파일 하나로 네 조합(원본 / 지시문만 / description만 / 둘 다)을 평가하려면 `--cases`를 씁니다.
