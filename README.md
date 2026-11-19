@@ -1,5 +1,11 @@
 # skill-eval-mini
 
+> **하네스 구성** (AI가 코드를 고칠 때 실수를 막는 구조)
+> - **규칙**: `CLAUDE.md`. 비밀 정보 커밋 금지, 숫자를 바꾸기 전에 결과 파일 확인, 변경 후 테스트 실행
+> - **테스트**: `tests/`(표준 라이브러리 unittest). 스킬 파일 읽기, 케이스 정답 형식, API 키 없는 평가 실행, 비밀 정보 검사
+> - **자동 검사**: `.github/workflows/check.yml`이 PR과 main push마다 테스트를 돌림 (API 키 없이 keyword 방식만)
+> - **실행 방법**: `python3 -m unittest discover -s tests -v` (설치할 패키지 없음). 수치 검증 결과는 `RESULTS_VERIFIED.md`
+
 AI 에이전트의 **스킬 선택**을 평가하고 자동으로 개선하는 축소판 실험입니다.
 라우터 모델은 각 스킬의 `name`과 `description`만 보고, 사용자 요청마다 스킬 하나 또는 `none`을 고릅니다.
 
