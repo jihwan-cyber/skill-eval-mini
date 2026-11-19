@@ -7,3 +7,4 @@ history_requests*.txt
 # 본인 대화 기록으로 만든 케이스와 그 결과 (원문이 담겨 있어 공개 저장소에 올리지 않음)
 cases_history*.json
 improve_runs*/ablation_cases_history*
+improve_runs*/*cases_history*
