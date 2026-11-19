@@ -1,0 +1,32 @@
+{
+  "note": "web_research 경계 문장 실험(13번 섹션). 실행 전에 커밋한 설정. A·B 는 11번 섹션의 원본·description만 개선과 같은 설정이고, C·D 는 web_research 설명에 경계 문장을 더한 것.",
+  "configs": [
+    {
+      "name": "A 원본",
+      "instruction": null,
+      "descriptions": {}
+    },
+    {
+      "name": "B description 개선",
+      "instruction": null,
+      "descriptions": "improve_runs/summary.json"
+    },
+    {
+      "name": "C 원본 + 경계 문장",
+      "instruction": null,
+      "descriptions": {
+        "web_research": "웹에서 최신 정보나 자료를 찾아 조사해서 알려준다. 찾아보지 않아도 답할 수 있는 상식 설명이나 조언에는 쓰지 않는다"
+      }
+    },
+    {
+      "name": "D description 개선 + 경계 문장",
+      "instruction": null,
+      "descriptions": [
+        "improve_runs/summary.json",
+        {
+          "web_research": "웹에서 최신 정보나 자료를 찾아 조사해서 알려준다. 찾아보지 않아도 답할 수 있는 상식 설명이나 조언에는 쓰지 않는다"
+        }
+      ]
+    }
+  ]
+}

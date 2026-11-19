@@ -334,6 +334,8 @@ effort(생각 깊이) 비교 (v2, 둘 다 20/20):
 | `skills_search/web_research/SKILL.md` | 검색·조사 스킬 (12번 다음 과제로 추가) |
 | `LABELING.md`, `labels_search.json` | web_research 추가 후의 정답 기준과 번호별 라벨 (결과를 보기 전에 먼저 정함) |
 | `make_search_cases.py` | 기존 케이스 파일에 새 정답 기준을 적용해 `*_search.json`을 만듦 |
+| `labels_search2.json`, `cases_*_search2.json` | 정답 기준 v2 (v3에 규칙 3 적용, 테스트셋 추가) |
+| `configs_web_boundary.json`, `compare_configs.py` | web_research 경계 문장 실험의 설정(실행 전에 커밋)과 여러 설정 비교 스크립트 |
 | `cases_val_v2.json`, `cases_holdout_v2.json` | 검증셋·보류셋에 작업 요청을 절반씩 더한 v2 (다음 자동 개선용) |
 | `eval.py` | 선택기를 바꿔 끼워 평가하고 지표를 계산 |
 | `improve.py` | 자동 개선 루프 |

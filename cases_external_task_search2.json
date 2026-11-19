@@ -1,0 +1,190 @@
+{
+  "skills_dirs": [
+    "skills",
+    "skills_extra",
+    "skills_search"
+  ],
+  "note": "외부 작업 요청: 외부 참여자에게 'AI에게 글·코드·표·메일·사진을 주며 해 달라고 한 요청'을 따로 받은 것(원문 그대로). 자연 요청(cases_external.json)과 분포가 다르므로 섞지 않는다. 정답은 스킬 description 기준, 애매한 요청은 acceptable 로 여러 답 허용. / web_research 스킬 추가 평가용: 정답 기준은 LABELING.md, labels_search2.json 의 번호별 라벨을 덮어씀.",
+  "cases": [
+    {
+      "id": 301,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 글 너무 긴데 중요한 내용만 간단하게 요약해 줘.",
+      "expected": "summarize"
+    },
+    {
+      "id": 302,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 표 보니까 뭐가 제일 많이 팔린 건지 모르겠어. 순위대로 정리해 줘.",
+      "expected": "data_analysis"
+    },
+    {
+      "id": 303,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 메일 답장해야 되는데 뭐라고 보내야 할지 모르겠어. 적당히 예의 있게 써 줘.",
+      "expected": "write_email"
+    },
+    {
+      "id": 304,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 코드 왜 오류 나는 거야? 내가 잘 모르겠으니까 어디가 문제인지 알려줘.",
+      "expected": "code_help"
+    },
+    {
+      "id": 305,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "none",
+      "request": "이 사진 배경이 너무 지저분한데 깔끔하게 바꿔 줘. 사람은 그대로 두고.",
+      "expected": "none"
+    },
+    {
+      "id": 306,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 문서 내용 좀 읽어보고 이상한 부분이나 틀린 내용 있으면 알려줘.",
+      "expected": "proofread",
+      "acceptable": [
+        "proofread",
+        "none"
+      ]
+    },
+    {
+      "id": 307,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이거 영어로 돼 있는데 무슨 말인지 모르겠어. 한국어로 번역해 줘.",
+      "expected": "translate"
+    },
+    {
+      "id": 308,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 엑셀 파일 계산 좀 해줘. 합계랑 평균 구하는 것도 넣어 줘.",
+      "expected": "data_analysis",
+      "acceptable": [
+        "data_analysis",
+        "code_help"
+      ]
+    },
+    {
+      "id": 309,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 글 너무 딱딱한데 좀 사람이 쓴 것처럼 자연스럽게 바꿔 줘.",
+      "expected": "proofread"
+    },
+    {
+      "id": 310,
+      "source": "task_1",
+      "kind": "task",
+      "tag": "none",
+      "request": "이 사진에 있는 글씨가 잘 안 보이는데 좀 선명하게 만들어서 읽어 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 311,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 PDF 너무 긴데 내가 알아야 할 내용만 뽑아 줘.",
+      "expected": "summarize"
+    },
+    {
+      "id": 312,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 문장 좀 이상하지 않아? 읽기 편하게 고쳐 줘.",
+      "expected": "proofread"
+    },
+    {
+      "id": 313,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "none",
+      "request": "이 사진 두 개 비교해서 뭐가 달라졌는지 알려줘.",
+      "expected": "none"
+    },
+    {
+      "id": 314,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 코드 그냥 복붙했는데 안 돌아가. 어떻게 해야 되는지 좀 봐줘.",
+      "expected": "code_help"
+    },
+    {
+      "id": 315,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 표 숫자들 계산 맞는지 확인 좀 해줘. 내가 계산하기 귀찮아.",
+      "expected": "data_analysis"
+    },
+    {
+      "id": 316,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 메일 무슨 말인지 쉽게 풀어 설명해 줘. 그래서 내가 뭘 해야 하는지도 알려줘.",
+      "expected": "summarize",
+      "acceptable": [
+        "summarize",
+        "none"
+      ]
+    },
+    {
+      "id": 317,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 글 내용 가지고 PPT 만들 건데 슬라이드별로 내용 나눠 줘.",
+      "expected": "report_write",
+      "acceptable": [
+        "report_write",
+        "summarize"
+      ]
+    },
+    {
+      "id": 318,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이 사진에 있는 메뉴들 번역해 주고 뭐가 맛있어 보이는지도 추천해 줘.",
+      "expected": "translate"
+    },
+    {
+      "id": 319,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "clear",
+      "request": "이거 너무 길고 복잡한데 세 줄 정도로 줄여줄 수 있어?",
+      "expected": "summarize"
+    },
+    {
+      "id": 320,
+      "source": "task_2",
+      "kind": "task",
+      "tag": "ambiguous",
+      "request": "이 파일들 내용 다 비슷한 것 같은데 서로 다른 점만 정리해 줘.",
+      "expected": "summarize",
+      "acceptable": [
+        "summarize",
+        "none"
+      ]
+    }
+  ]
+}
