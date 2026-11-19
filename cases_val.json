@@ -1,0 +1,141 @@
+{
+  "skills_dirs": [
+    "skills",
+    "skills_extra"
+  ],
+  "note": "자동 개선의 검증셋: 수정안 채택 여부를 정할 때만 쓰고, 개선 모델에게 내용은 보여 주지 않는다. cases_external.json 30개를 15개씩 나눈 것(스킬 요청·애매한 요청이 양쪽에 고르게 들어가도록 배정).",
+  "cases": [
+    {
+      "id": 201,
+      "source": "external_1",
+      "tag": "none",
+      "request": "오늘 날씨 어때?",
+      "expected": "none"
+    },
+    {
+      "id": 202,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "오늘 국내 뉴스 주요 내용들 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 204,
+      "source": "external_1",
+      "tag": "ambiguous",
+      "request": "반도체 관련 뉴스 정리해줘",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 206,
+      "source": "external_1",
+      "tag": "none",
+      "request": "응력에 대해서 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 208,
+      "source": "external_1",
+      "tag": "none",
+      "request": "돈키호테 텍스프리 방법 알려줘",
+      "expected": "none"
+    },
+    {
+      "id": 211,
+      "source": "external_2",
+      "tag": "ambiguous",
+      "request": "이거 무슨 말인지 쉽게 설명 좀 해줘. 읽어도 뭔 소린지 모르겠어.",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "summarize"
+      ]
+    },
+    {
+      "id": 213,
+      "source": "external_2",
+      "tag": "clear",
+      "request": "영어로 바꿔줘. 근데 번역기 돌린 것처럼 말고 자연스럽게 해줘.",
+      "expected": "translate"
+    },
+    {
+      "id": 214,
+      "source": "external_2",
+      "tag": "ambiguous",
+      "request": "엑셀 잘 모르는데 이거 자동으로 계산되게 할 수 없나?",
+      "expected": "code_help",
+      "acceptable": [
+        "code_help",
+        "data_analysis"
+      ]
+    },
+    {
+      "id": 215,
+      "source": "external_2",
+      "tag": "none",
+      "request": "영어 공부 좀 해보려고 하는데 뭐부터 해야 돼? 너무 어려운 건 말고.",
+      "expected": "none"
+    },
+    {
+      "id": 217,
+      "source": "external_2",
+      "tag": "none",
+      "request": "집에 계란이랑 고기밖에 없는데 뭐 해 먹지? 귀찮으니까 간단한 걸로.",
+      "expected": "none"
+    },
+    {
+      "id": 219,
+      "source": "external_2",
+      "tag": "none",
+      "request": "이 사진에서 다른 건 아무것도 건들지 말고 배경만 흰색으로 바꿔줘.",
+      "expected": "none"
+    },
+    {
+      "id": 222,
+      "source": "external_3",
+      "tag": "none",
+      "request": "친구 생일인데 선물 뭐 사주지? 너무 비싼 건 부담스럽고 그렇다고 너무 성의 없어 보이는 것도 싫어.",
+      "expected": "none"
+    },
+    {
+      "id": 224,
+      "source": "external_3",
+      "tag": "none",
+      "request": "이 사진 뭔가 이상한데 어디가 문제인지 모르겠어. 좀 더 예쁘게 보이게 수정해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 226,
+      "source": "external_3",
+      "tag": "none",
+      "request": "오늘 저녁 뭐 먹을까? 배달시킬 건데 맨날 먹던 거 말고 다른 거 추천해 줘.",
+      "expected": "none"
+    },
+    {
+      "id": 228,
+      "source": "external_3",
+      "tag": "ambiguous",
+      "request": "자기소개서 써야 되는데 첫 문장부터 막혔어. 어떻게 시작해야 할지 좀 도와줘.",
+      "expected": "none",
+      "acceptable": [
+        "none",
+        "report_write"
+      ]
+    },
+    {
+      "id": 230,
+      "source": "external_3",
+      "tag": "none",
+      "request": "요즘 시간이 너무 빨리 가는 것 같은데 할 일은 많고 맨날 미뤄. 하루 일정을 어떻게 짜야 좀 나아질까?",
+      "expected": "none"
+    }
+  ]
+}

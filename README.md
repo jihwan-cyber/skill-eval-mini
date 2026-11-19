@@ -154,6 +154,7 @@ effort(생각 깊이) 비교 (v2, 둘 다 20/20):
 | `cases_v3.json` | 32개: clear 7 / overlap 13 / ambiguous 4 / none 8 (스킬 7개). 자동 개선의 학습셋 |
 | `cases_test.json` | 24개: 자동 개선의 테스트셋 (개선 모델은 보지 않음) |
 | `cases_external.json` | 30개: 외부 참여자 3명이 쓴 실제 요청 |
+| `cases_val.json`, `cases_holdout.json` | 외부 요청 30개를 16개 / 14개로 나눈 검증셋과 보류셋 |
 | `eval.py` | 선택기를 바꿔 끼워 평가하고 지표를 계산 |
 | `improve.py` | 자동 개선 루프 |
 | `ablation.py` | 원인 분리 실험과 비용 비교 |
@@ -170,7 +171,12 @@ python3 eval.py --selector api --cases cases_v3.json --repeats 3    # v3, 3회 �
 python3 improve.py --dry-run                                        # 자동 개선 루프, API 없이 흐름만 확인
 python3 improve.py                                                  # 자동 개선 루프
 python3 ablation.py                                                 # 원인 분리 실험
+python3 improve.py --val cases_val.json --holdout cases_holdout.json --outdir improve_runs_val   # 검증셋 기준 자동 개선
 ```
+
+`improve.py`에 `--val`을 주면, 수정안은 **학습셋 정확도가 오르고 검증셋 정확도가 떨어지지 않을 때만** 채택됩니다.
+개선 모델에게 검증셋 내용은 보여 주지 않고, "검증셋 점수가 떨어져 거절됐다"는 사실만 알려 줍니다.
+`--holdout`은 개선 과정에서 전혀 쓰지 않고 마지막 비교에만 씁니다.
 
 `eval.py` 옵션: `--effort low|medium|high` (기본 low), `--repeats N`, `--model`, `--out`
 
