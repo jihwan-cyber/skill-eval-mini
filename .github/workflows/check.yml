@@ -1,0 +1,21 @@
+name: check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      # 표준 라이브러리만 쓰므로 설치할 패키지가 없다. API 키도 쓰지 않는다 (keyword 방식만).
+      - name: 테스트 실행
+        run: python -m unittest discover -s tests -v
