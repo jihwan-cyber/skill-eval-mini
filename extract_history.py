@@ -5,6 +5,8 @@
 기록은 이 컴퓨터 밖으로 나가지 않는다. 결과 파일을 직접 확인한 뒤 필요한 것만 공유한다.
 
   python3 extract_history.py 경로/conversations.json
+  python3 extract_history.py 경로/내보낸파일.zip          # zip 을 풀지 않고 그대로 넣어도 된다
+  python3 extract_history.py 경로/압축을푼폴더             # 폴더 안의 conversations.json 을 찾는다
   python3 extract_history.py 경로/conversations.json --before 2026-11-18 --limit 40 --seed 1
 
 결과: history_requests.txt (번호 매긴 요청 목록) — .gitignore 에 들어 있어 커밋되지 않는다.
@@ -14,6 +16,7 @@ import json
 import random
 import re
 import sys
+import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -121,17 +124,42 @@ def extract(conversations):
     return kind, items
 
 
+def load_conversations(path):
+    """conversations.json, 내보낸 zip, 또는 압축을 푼 폴더에서 대화 목록을 읽는다."""
+    p = Path(path).expanduser()
+    if not p.exists():
+        raise SystemExit(
+            f"파일을 찾을 수 없습니다: {p}\n"
+            "내보낸 zip 파일이나 conversations.json 의 실제 위치를 넣어 주세요. 찾는 명령:\n"
+            '  find ~ -name "conversations.json" -maxdepth 4 2>/dev/null'
+        )
+    if p.is_dir():
+        found = sorted(p.rglob("conversations.json"))
+        if not found:
+            raise SystemExit(f"{p} 폴더 안에 conversations.json 이 없습니다.")
+        p = found[0]
+    if zipfile.is_zipfile(p):
+        with zipfile.ZipFile(p) as z:
+            names = [n for n in z.namelist() if n.split("/")[-1] == "conversations.json"]
+            if not names:
+                raise SystemExit(f"{p} 안에 conversations.json 이 없습니다.")
+            with z.open(names[0]) as f:
+                return json.load(f), f"{p.name}:{names[0]}"
+    with open(p, encoding="utf-8") as f:
+        return json.load(f), str(p)
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("path", help="내보낸 conversations.json 경로")
+    ap.add_argument("path", help="conversations.json, 내보낸 zip 파일, 또는 압축을 푼 폴더의 경로")
     ap.add_argument("--before", default="2026-11-18", help="이 날짜 이전에 시작한 대화만 (실험 시작일)")
     ap.add_argument("--limit", type=int, default=40, help="무작위로 뽑을 개수")
     ap.add_argument("--seed", type=int, default=1, help="무작위 표본의 시드 (같은 값이면 같은 표본)")
     ap.add_argument("--out", default="history_requests.txt")
     args = ap.parse_args()
 
-    with open(args.path, encoding="utf-8") as f:
-        data = json.load(f)
+    data, source = load_conversations(args.path)
+    print(f"읽은 파일: {source}")
     if not isinstance(data, list):
         raise SystemExit("conversations.json 의 맨 바깥이 목록이 아닙니다. 내보낸 파일이 맞는지 확인해 주세요.")
 
