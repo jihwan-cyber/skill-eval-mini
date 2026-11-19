@@ -68,7 +68,8 @@ IMPROVER_PROMPT = """너는 AI 에이전트의 스킬 라우팅 설정을 개선
 def make_api_improver(model):
     import anthropic
 
-    client = anthropic.Anthropic()
+    # 일시적인 연결 끊김이나 시간 초과로 전체 실행이 멈추지 않도록 재시도를 늘린다 (기본 2회)
+    client = anthropic.Anthropic(max_retries=6)
 
     def improve(prompt):
         kwargs = dict(

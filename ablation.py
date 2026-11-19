@@ -15,7 +15,8 @@ import argparse
 import json
 from pathlib import Path
 
-from eval import DEFAULT_INSTRUCTION, keyword_selector, load_all_skills, load_cases, make_api_selector
+from eval import (DEFAULT_INSTRUCTION, NONE, compute_metrics, keyword_selector, load_all_skills,
+                  load_cases, make_api_selector)
 from improve import evaluate
 
 # 1M 토큰당 달러 (claude-haiku-5-5, 프롬프트 100K 토큰 이하 기준).
@@ -107,6 +108,16 @@ def main():
                             "metrics": m, "cost": c, "rows": rows})
             print(f"{vname:14s} {split:5s} 정확도 {m['accuracy']:.1%}  오발동 {fmt_rate(m['false_trigger_rate'])}  "
                   f"누락 {fmt_rate(m['miss_rate'])}  입력 {c['avg_input_tokens']}  출력 {c['avg_output_tokens']}")
+            # 앞 대화에 이어지는 요청(followup)이 섞여 있으면, 대화의 첫 메시지만 따로 계산한다
+            first_ids = {x["id"] for x in cases if not x.get("followup")}
+            if 0 < len(first_ids) < len(cases):
+                sub = [r for r in rows if r["id"] in first_ids]
+                sm = compute_metrics(sub, list(base_skills) + [NONE])
+                sc = cost_stats(sub, model)
+                results.append({"variant": vname, "split": f"{split}[첫 메시지]", "config": cfg,
+                                "metrics": sm, "cost": sc, "rows_ref": split})
+                print(f"{'':14s} └ 첫 메시지 {len(first_ids)}개만: 정확도 {sm['accuracy']:.1%}  "
+                      f"오발동 {fmt_rate(sm['false_trigger_rate'])}  누락 {fmt_rate(sm['miss_rate'])}")
 
     md = to_markdown(results, model, effort, args.repeats)
     print("\n" + md)

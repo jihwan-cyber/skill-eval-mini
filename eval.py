@@ -52,7 +52,8 @@ def keyword_selector(request, skills):
 def make_api_selector(model, effort, instruction=DEFAULT_INSTRUCTION):
     import anthropic  # API 모드에서만 필요
 
-    client = anthropic.Anthropic()
+    # 일시적인 연결 끊김이나 시간 초과로 전체 실행이 멈추지 않도록 재시도를 늘린다 (기본 2회)
+    client = anthropic.Anthropic(max_retries=6)
 
     def api_selector(request, skills):
         skill_text = "\n".join(f"- {n}: {d}" for n, d in skills.items())
