@@ -170,6 +170,7 @@ def build_prompt(config, skills, metrics, failures, rejected):
     )
     rejected_text = "\n".join(
         f"- 지시문: {r['instruction']} / description 변경: {r['descriptions']} -> 학습셋 {r['accuracy']:.1%}"
+        f" / 거절 이유: {r.get('reason', '학습셋 정확도가 오르지 않음')}"
         for r in rejected
     ) or "(없음)"
     return IMPROVER_PROMPT.format(
@@ -181,11 +182,18 @@ def build_prompt(config, skills, metrics, failures, rejected):
 
 # ---------------------------------------------------------------- 루프
 
-def improve_loop(selector_factory, improver, base_skills, train, iters, repeats, log=print):
+def improve_loop(selector_factory, improver, base_skills, train, iters, repeats, val=None, log=print):
+    """val 이 주어지면, 학습셋 정확도가 오르고 검증셋 정확도가 떨어지지 않을 때만 채택한다.
+    개선 모델에게 검증셋 내용은 보여 주지 않고, 검증셋 때문에 거절됐다는 사실만 알린다."""
     config = {"instruction": DEFAULT_INSTRUCTION, "descriptions": {}}
     rows, metrics = evaluate(selector_factory, base_skills, config, train, repeats)
     log(f"[0] 원본 설정: {metrics_line(metrics)}")
-    history = [{"iter": 0, "status": "baseline", "config": config, "metrics": metrics}]
+    val_metrics = val_rows = None
+    if val:
+        val_rows, val_metrics = evaluate(selector_factory, base_skills, config, val, repeats)
+        log(f"    검증셋: {metrics_line(val_metrics)}")
+    history = [{"iter": 0, "status": "baseline", "config": config, "metrics": metrics,
+                "val_metrics": val_metrics, "val_rows": val_rows}]
     rejected = []
 
     for i in range(1, iters + 1):
@@ -211,17 +219,35 @@ def improve_loop(selector_factory, improver, base_skills, train, iters, repeats,
             "descriptions": {**config["descriptions"], **(proposal.get("descriptions") or {})},
         }
         c_rows, c_metrics = evaluate(selector_factory, base_skills, candidate, train, repeats)
-        accepted = c_metrics["accuracy"] > metrics["accuracy"]
-        log(f"[{i}] {'채택' if accepted else '거절'}: {metrics_line(c_metrics)}")
+        c_val = c_val_rows = None
+        if c_metrics["accuracy"] <= metrics["accuracy"]:
+            accepted, reason = False, "학습셋 정확도가 오르지 않음"
+        elif val:
+            # 학습셋은 올랐을 때만 검증셋을 돌린다 (호출 절약)
+            c_val_rows, c_val = evaluate(selector_factory, base_skills, candidate, val, repeats)
+            if c_val["accuracy"] < val_metrics["accuracy"]:
+                accepted = False
+                reason = (f"학습셋은 올랐지만 검증셋(내용 비공개) 정확도가 "
+                          f"{val_metrics['accuracy']:.1%} -> {c_val['accuracy']:.1%} 로 떨어짐")
+            else:
+                accepted, reason = True, "학습셋 상승, 검증셋 유지 또는 상승"
+        else:
+            accepted, reason = True, "학습셋 상승"
+        log(f"[{i}] {'채택' if accepted else '거절'} ({reason}): {metrics_line(c_metrics)}")
+        if c_val:
+            log(f"     검증셋: {metrics_line(c_val)}")
         log(f"     진단: {proposal.get('diagnosis', '')}")
         history.append({
-            "iter": i, "status": "accepted" if accepted else "rejected",
-            "diagnosis": proposal.get("diagnosis"), "config": candidate, "metrics": c_metrics,
+            "iter": i, "status": "accepted" if accepted else "rejected", "reason": reason,
+            "diagnosis": proposal.get("diagnosis"), "config": candidate,
+            "metrics": c_metrics, "val_metrics": c_val, "val_rows": c_val_rows,
         })
         if accepted:
             config, rows, metrics = candidate, c_rows, c_metrics
+            if c_val:
+                val_metrics = c_val
         else:
-            rejected.append({**candidate, "accuracy": c_metrics["accuracy"]})
+            rejected.append({**candidate, "accuracy": c_metrics["accuracy"], "reason": reason})
 
     return config, history
 
@@ -230,6 +256,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--train", default="cases_v3.json")
     ap.add_argument("--test", default="cases_test.json")
+    ap.add_argument("--val", default=None, help="채택 여부를 정할 검증셋 (개선 모델에게는 비공개)")
+    ap.add_argument("--holdout", default=None, help="마지막 비교에만 쓰는 추가 평가셋")
     ap.add_argument("--model", default="claude-haiku-5-5", help="스킬을 고르는 라우터 모델")
     ap.add_argument("--effort", default="low", choices=["low", "medium", "high"])
     ap.add_argument("--improver-model", default="claude-opus-5-5", help="수정안을 만드는 모델")
@@ -240,11 +268,22 @@ def main():
     args = ap.parse_args()
 
     train_dirs, train = load_cases(args.train)
-    test_dirs, test = load_cases(args.test)
-    if train_dirs != test_dirs:
-        raise SystemExit("학습셋과 테스트셋의 skills_dirs 가 다릅니다")
-    if {c["request"] for c in train} & {c["request"] for c in test}:
-        raise SystemExit("학습셋과 테스트셋에 같은 요청이 있습니다")
+    sets = {"test": load_cases(args.test)}
+    if args.val:
+        sets["val"] = load_cases(args.val)
+    if args.holdout:
+        sets["holdout"] = load_cases(args.holdout)
+    names = ["train"] + list(sets)
+    all_sets = {"train": (train_dirs, train), **sets}
+    for a in names:
+        if all_sets[a][0] != train_dirs:
+            raise SystemExit(f"{a} 의 skills_dirs 가 학습셋과 다릅니다")
+        for b in names[names.index(a) + 1:]:
+            if {c["request"] for c in all_sets[a][1]} & {c["request"] for c in all_sets[b][1]}:
+                raise SystemExit(f"{a} 와 {b} 에 같은 요청이 있습니다")
+    test = sets["test"][1]
+    val = sets["val"][1] if args.val else None
+    holdout = sets["holdout"][1] if args.holdout else None
     base_skills = load_all_skills(train_dirs)
 
     if args.dry_run:
@@ -254,25 +293,39 @@ def main():
         selector_factory = lambda instruction: make_api_selector(args.model, args.effort, instruction)  # noqa: E731
         improver = make_api_improver(args.improver_model)
 
-    print(f"학습셋 {len(train)}개 x {args.repeats}회, 테스트셋 {len(test)}개, 최대 {args.iters}회 개선\n")
-    best, history = improve_loop(selector_factory, improver, base_skills, train, args.iters, args.repeats)
+    extra = (f", 검증셋 {len(val)}개" if val else "") + (f", 보류셋 {len(holdout)}개" if holdout else "")
+    print(f"학습셋 {len(train)}개 x {args.repeats}회, 테스트셋 {len(test)}개{extra}, 최대 {args.iters}회 개선\n")
+    best, history = improve_loop(selector_factory, improver, base_skills, train, args.iters, args.repeats, val=val)
 
-    print("\n[테스트셋] 개선 모델이 보지 못한 케이스로 비교")
     baseline = {"instruction": DEFAULT_INSTRUCTION, "descriptions": {}}
-    results = {}
-    for label, cfg in [("원본", baseline), ("개선", best)]:
-        rows, m = evaluate(selector_factory, base_skills, cfg, test, args.repeats)
-        results[label] = {"config": cfg, "metrics": m, "rows": rows}
-        print(f"  {label}: {metrics_line(m)}")
+
+    def compare(title, cases):
+        print(f"\n[{title}] 원본과 최종 설정 비교")
+        res = {}
+        for label, cfg in [("원본", baseline), ("개선", best)]:
+            rows, m = evaluate(selector_factory, base_skills, cfg, cases, args.repeats)
+            res[label] = {"config": cfg, "metrics": m, "rows": rows}
+            print(f"  {label}: {metrics_line(m)}")
+        return res
+
+    results = compare("테스트셋", test)
+    holdout_results = compare("보류셋", holdout) if holdout else None
 
     outdir = Path(args.outdir)
-    outdir.mkdir(exist_ok=True)
-    out = outdir / ("summary_dry_run.json" if args.dry_run else "summary.json")
+    outdir.mkdir(parents=True, exist_ok=True)
+    stem = "summary_dry_run" if args.dry_run else "summary"
+    out = outdir / f"{stem}.json"
+    n = 2
+    while out.exists():  # 이전 실행 결과를 덮어쓰지 않는다
+        out = outdir / f"{stem}_{n}.json"
+        n += 1
     with open(out, "w", encoding="utf-8") as f:
         json.dump({
             "args": vars(args), "history": history, "best_config": best,
             "test": {k: {"config": v["config"], "metrics": v["metrics"]} for k, v in results.items()},
             "test_rows": {k: v["rows"] for k, v in results.items()},
+            **({"holdout": {k: {"config": v["config"], "metrics": v["metrics"]} for k, v in holdout_results.items()},
+                "holdout_rows": {k: v["rows"] for k, v in holdout_results.items()}} if holdout_results else {}),
         }, f, ensure_ascii=False, indent=2)
     print(f"\n최종 지시문: {best['instruction']}")
     if best["descriptions"]:
