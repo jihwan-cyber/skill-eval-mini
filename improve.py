@@ -188,11 +188,12 @@ def improve_loop(selector_factory, improver, base_skills, train, iters, repeats,
     config = {"instruction": DEFAULT_INSTRUCTION, "descriptions": {}}
     rows, metrics = evaluate(selector_factory, base_skills, config, train, repeats)
     log(f"[0] 원본 설정: {metrics_line(metrics)}")
-    val_metrics = None
+    val_metrics = val_rows = None
     if val:
-        _, val_metrics = evaluate(selector_factory, base_skills, config, val, repeats)
+        val_rows, val_metrics = evaluate(selector_factory, base_skills, config, val, repeats)
         log(f"    검증셋: {metrics_line(val_metrics)}")
-    history = [{"iter": 0, "status": "baseline", "config": config, "metrics": metrics, "val_metrics": val_metrics}]
+    history = [{"iter": 0, "status": "baseline", "config": config, "metrics": metrics,
+                "val_metrics": val_metrics, "val_rows": val_rows}]
     rejected = []
 
     for i in range(1, iters + 1):
@@ -218,12 +219,12 @@ def improve_loop(selector_factory, improver, base_skills, train, iters, repeats,
             "descriptions": {**config["descriptions"], **(proposal.get("descriptions") or {})},
         }
         c_rows, c_metrics = evaluate(selector_factory, base_skills, candidate, train, repeats)
-        c_val = None
+        c_val = c_val_rows = None
         if c_metrics["accuracy"] <= metrics["accuracy"]:
             accepted, reason = False, "학습셋 정확도가 오르지 않음"
         elif val:
             # 학습셋은 올랐을 때만 검증셋을 돌린다 (호출 절약)
-            _, c_val = evaluate(selector_factory, base_skills, candidate, val, repeats)
+            c_val_rows, c_val = evaluate(selector_factory, base_skills, candidate, val, repeats)
             if c_val["accuracy"] < val_metrics["accuracy"]:
                 accepted = False
                 reason = (f"학습셋은 올랐지만 검증셋(내용 비공개) 정확도가 "
@@ -239,7 +240,7 @@ def improve_loop(selector_factory, improver, base_skills, train, iters, repeats,
         history.append({
             "iter": i, "status": "accepted" if accepted else "rejected", "reason": reason,
             "diagnosis": proposal.get("diagnosis"), "config": candidate,
-            "metrics": c_metrics, "val_metrics": c_val,
+            "metrics": c_metrics, "val_metrics": c_val, "val_rows": c_val_rows,
         })
         if accepted:
             config, rows, metrics = candidate, c_rows, c_metrics
@@ -312,7 +313,12 @@ def main():
 
     outdir = Path(args.outdir)
     outdir.mkdir(parents=True, exist_ok=True)
-    out = outdir / ("summary_dry_run.json" if args.dry_run else "summary.json")
+    stem = "summary_dry_run" if args.dry_run else "summary"
+    out = outdir / f"{stem}.json"
+    n = 2
+    while out.exists():  # 이전 실행 결과를 덮어쓰지 않는다
+        out = outdir / f"{stem}_{n}.json"
+        n += 1
     with open(out, "w", encoding="utf-8") as f:
         json.dump({
             "args": vars(args), "history": history, "best_config": best,
